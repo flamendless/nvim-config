@@ -61,13 +61,40 @@ require('packer').startup(function(use)
   use "simnalamburt/vim-mundo"
   use "bkad/CamelCaseMotion"
   use "jdhao/whitespace.nvim"
-  use ({"luisiacc/gruvbox-baby", config = function()
-    vim.g.gruvbox_baby_telescope_theme = 1
-    vim.g.gruvbox_baby_transparent_mode = 1
-  end})
-  use ({"xiyaowong/nvim-transparent", config = function()
-    vim.g.transparent_enabled = true
-  end})
+  use "luisiacc/gruvbox-baby"
+
+  use 'm4xshen/autoclose.nvim'
+  require("autoclose").setup({})
+
+  use "yamatsum/nvim-cursorline"
+  require('nvim-cursorline').setup {
+    cursorline = {
+      enable = true,
+      timeout = 1000,
+      number = false,
+    },
+    cursorword = {
+      enable = true,
+      min_length = 3,
+      hl = { underline = true },
+    }
+  }
+
+  use({
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v2.x",
+    requires = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+      "MunifTanjim/nui.nvim",
+    }
+  })
+
+    use 'nvim-treesitter/nvim-treesitter-context'
+
+    use 'nvim-tree/nvim-web-devicons'
+    use {'romgrk/barbar.nvim', wants = 'nvim-web-devicons'}
+
 
   -- Fuzzy Finder (files, lsp, etc)
   use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
@@ -179,13 +206,15 @@ map("n", "<space>g", "<cmd>lua require(\'telescope.builtin\').grep_string({searc
   {})
 map("n", "<F5>", "<cmd>MundoToggle<cr>", opts)
 map("n", "<C-a>", "ggVG", opts)
+map("n", "<leader>e", "<cmd>NeoTreeShowToggle<CR>", opts)
+
 vim.cmd [[
-map <silent> w <Plug>CamelCaseMotion_w
-map <silent> b <Plug>CamelCaseMotion_b
-map <silent> e <Plug>CamelCaseMotion_e
-sunmap w
-sunmap b
-sunmap e
+    map <silent> w <Plug>CamelCaseMotion_w
+    map <silent> b <Plug>CamelCaseMotion_b
+    map <silent> e <Plug>CamelCaseMotion_e
+    sunmap w
+    sunmap b
+    sunmap e
 ]]
 local win32yank = "/mnt/c/Users/user/Documents/win32yank/win32yank.exe"
 vim.g.clipboard = {
@@ -356,8 +385,8 @@ require('nvim-treesitter.configs').setup {
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
-vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
+-- vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
+-- vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
 
 -- LSP settings.
 --  This function gets run when an LSP connects to a particular buffer.
@@ -498,27 +527,27 @@ cmp.setup {
 }
 
 function Love.RunAndCheckLua(ext, mode)
-	if ext == "py" then
-		vim.cmd("!python3 build.py -b -r " .. (mode or ""))
-	else
-		local a = vim.fn.expand("%:p:h:t")
-		local b = vim.fn.expand("%:t:r")
-		local filename = string.format("%s/%s.lua", a, b)
-		vim.cmd("!sh build.sh run && sh build.sh check vim " .. filename)
-	end
+    if ext == "py" then
+        vim.cmd("!python3 build.py -b -r " .. (mode or ""))
+    else
+        local a = vim.fn.expand("%:p:h:t")
+        local b = vim.fn.expand("%:t:r")
+        local filename = string.format("%s/%s.lua", a, b)
+        vim.cmd("!sh build.sh run && sh build.sh check vim " .. filename)
+    end
 end
 
 function Love.SetLove()
-	if vim.loop.fs_stat("build.sh") then
-		map("n", "<space>rl", function() Love.RunAndCheckLua() end, opts)
-		map("n", "<space>rp", "<cmd>!sh build.sh profile<CR>", opts)
-	elseif vim.loop.fs_stat("build.py") then
-		map("n", "<space>rl", function() Love.RunAndCheckLua("py", "-d") end, opts)
-		map("n", "<space>rp", function() Love.RunAndCheckLua("py", "-p") end, opts)
-		map("n", "<space>rb", function() Love.RunAndCheckLua("py", "-d -p") end, opts)
-	else
-		map("n", "<space>rl", "<cmd>!love . &&<CR>", opts)
-	end
+    if vim.loop.fs_stat("build.sh") then
+        map("n", "<space>rl", function() Love.RunAndCheckLua() end, opts)
+        map("n", "<space>rp", "<cmd>!sh build.sh profile<CR>", opts)
+    elseif vim.loop.fs_stat("build.py") then
+        map("n", "<space>rl", function() Love.RunAndCheckLua("py", "-d") end, opts)
+        map("n", "<space>rp", function() Love.RunAndCheckLua("py", "-p") end, opts)
+        map("n", "<space>rb", function() Love.RunAndCheckLua("py", "-d -p") end, opts)
+    else
+        map("n", "<space>rl", "<cmd>!love . &&<CR>", opts)
+    end
 end
 
 -- The line beneath this is called `modeline`. See `:help modeline`
