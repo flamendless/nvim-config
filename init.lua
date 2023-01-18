@@ -251,24 +251,11 @@ vim.cmd [[
 	sunmap e
 ]]
 
-local win32yank = "/mnt/c/Users/user/Documents/win32yank/win32yank.exe"
-vim.g.clipboard = {
-	name = "win3yank-wsl",
-	copy = {
-		["+"] = win32yank .. " -i --crlf",
-		["*"] = win32yank .. " -i --crlf"
-	},
-	paste = {
-		["+"] = win32yank .. " -o --crlf",
-		["*"] = win32yank .. " -o --crlf"
-	},
-	cache_enable = 0,
-}
 vim.filetype.add({
 	extension = {
 	lua = function()
-	  Love.SetLove()
-	  return "lua"
+		Love.SetLove()
+		return "lua"
 	end,
 	}
 })
@@ -278,7 +265,7 @@ vim.filetype.add({
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
 	callback = function()
-	vim.highlight.on_yank()
+		vim.highlight.on_yank()
 	end,
 	group = highlight_group,
 	pattern = '*',
@@ -288,10 +275,10 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- See `:help lualine.txt`
 require('lualine').setup {
 	options = {
-	icons_enabled = false,
-	theme = 'auto',
-	component_separators = '|',
-	section_separators = '',
+		icons_enabled = false,
+		theme = 'auto',
+		component_separators = '|',
+		section_separators = '',
 	},
 }
 
@@ -313,11 +300,11 @@ require('indent_blankline').setup {
 -- See `:help gitsigns.txt`
 require('gitsigns').setup {
 	signs = {
-	add = { text = '+' },
-	change = { text = '~' },
-	delete = { text = '_' },
-	topdelete = { text = '‾' },
-	changedelete = { text = '~' },
+		add = { text = '+' },
+		change = { text = '~' },
+		delete = { text = '_' },
+		topdelete = { text = '‾' },
+		changedelete = { text = '~' },
 	},
 }
 
@@ -325,12 +312,12 @@ require('gitsigns').setup {
 -- See `:help telescope` and `:help telescope.setup()`
 require('telescope').setup {
 	defaults = {
-	mappings = {
-	  i = {
-		['<C-u>'] = false,
-		['<C-d>'] = false,
-	  },
-	},
+		mappings = {
+		  i = {
+			['<C-u>'] = false,
+			['<C-d>'] = false,
+		  },
+		},
 	},
 }
 
@@ -343,8 +330,8 @@ vim.keymap.set('n', '<leader>fo', require('telescope.builtin').oldfiles, { desc 
 vim.keymap.set('n', '<leader>/', function()
 	-- You can pass additional configuration to telescope to change theme, layout, etc.
 	require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-	winblend = 10,
-	previewer = false,
+		winblend = 10,
+		previewer = false,
 	})
 end, { desc = '[/] Fuzzily search in current buffer]' })
 
@@ -363,57 +350,57 @@ require('nvim-treesitter.configs').setup {
 	highlight = { enable = true },
 	indent = { enable = true, disable = { 'python' } },
 	incremental_selection = {
-	enable = true,
-	keymaps = {
-	  init_selection = '<c-space>',
-	  node_incremental = '<c-space>',
-	  scope_incremental = '<c-s>',
-	  node_decremental = '<c-backspace>',
-	},
+		enable = true,
+		keymaps = {
+			init_selection = '<c-space>',
+			node_incremental = '<c-space>',
+			scope_incremental = '<c-s>',
+			node_decremental = '<c-backspace>',
+		},
 	},
 	textobjects = {
-	select = {
-	  enable = true,
-	  lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
-	  keymaps = {
-		-- You can use the capture groups defined in textobjects.scm
-		['aa'] = '@parameter.outer',
-		['ia'] = '@parameter.inner',
-		['af'] = '@function.outer',
-		['if'] = '@function.inner',
-		['ac'] = '@class.outer',
-		['ic'] = '@class.inner',
-	  },
-	},
-	move = {
-	  enable = true,
-	  set_jumps = true, -- whether to set jumps in the jumplist
-	  goto_next_start = {
-		[']m'] = '@function.outer',
-		[']]'] = '@class.outer',
-	  },
-	  goto_next_end = {
-		[']M'] = '@function.outer',
-		[']['] = '@class.outer',
-	  },
-	  goto_previous_start = {
-		['[m'] = '@function.outer',
-		['[['] = '@class.outer',
-	  },
-	  goto_previous_end = {
-		['[M'] = '@function.outer',
-		['[]'] = '@class.outer',
-	  },
-	},
-	swap = {
-	  enable = true,
-	  swap_next = {
-		['<leader>a'] = '@parameter.inner',
-	  },
-	  swap_previous = {
-		['<leader>A'] = '@parameter.inner',
-	  },
-	},
+		select = {
+			enable = true,
+			lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
+			keymaps = {
+			-- You can use the capture groups defined in textobjects.scm
+				['aa'] = '@parameter.outer',
+				['ia'] = '@parameter.inner',
+				['af'] = '@function.outer',
+				['if'] = '@function.inner',
+				['ac'] = '@class.outer',
+				['ic'] = '@class.inner',
+			},
+		},
+		move = {
+			enable = true,
+			set_jumps = true, -- whether to set jumps in the jumplist
+			goto_next_start = {
+				[']m'] = '@function.outer',
+				[']]'] = '@class.outer',
+			},
+			goto_next_end = {
+				[']M'] = '@function.outer',
+				[']['] = '@class.outer',
+			},
+			goto_previous_start = {
+				['[m'] = '@function.outer',
+				['[['] = '@class.outer',
+			},
+			goto_previous_end = {
+				['[M'] = '@function.outer',
+				['[]'] = '@class.outer',
+			},
+		},
+		swap = {
+			enable = true,
+			swap_next = {
+				['<leader>a'] = '@parameter.inner',
+			},
+			swap_previous = {
+				['<leader>A'] = '@parameter.inner',
+			},
+		},
 	},
 }
 
@@ -433,11 +420,10 @@ local on_attach = function(_, bufnr)
 	-- In this case, we create a function that lets us more easily define mappings specific
 	-- for LSP related items. It sets the mode, buffer and description for us each time.
 	local nmap = function(keys, func, desc)
-	if desc then
-	  desc = 'LSP: ' .. desc
-	end
-
-	vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
+		if desc then
+			desc = 'LSP: ' .. desc
+		end
+		vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
 	end
 
 	nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
@@ -459,13 +445,15 @@ local on_attach = function(_, bufnr)
 	nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
 	nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
 	nmap('<leader>wl', function()
-	print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-	end, '[W]orkspace [L]ist Folders')
+		print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+		end, '[W]orkspace [L]ist Folders'
+	)
 
 	-- Create a command `:Format` local to the LSP buffer
 	vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
-	vim.lsp.buf.format()
-	end, { desc = 'Format current buffer with LSP' })
+		vim.lsp.buf.format()
+		end, { desc = 'Format current buffer with LSP' }
+	)
 end
 
 -- Enable the following language servers
@@ -482,7 +470,7 @@ local servers = {
 
 	sumneko_lua = {
 		Lua = {
-		  workspace = { checkThirdParty = false },
+		  workspace = { checkThirdParty = true },
 		  telemetry = { enable = false },
 		},
 	},
@@ -507,11 +495,11 @@ mason_lspconfig.setup {
 
 mason_lspconfig.setup_handlers {
 	function(server_name)
-	require('lspconfig')[server_name].setup {
-	  capabilities = capabilities,
-	  on_attach = on_attach,
-	  settings = servers[server_name],
-	}
+		require('lspconfig')[server_name].setup {
+			capabilities = capabilities,
+			on_attach = on_attach,
+			settings = servers[server_name],
+		}
 	end,
 }
 
@@ -524,36 +512,36 @@ local luasnip = require 'luasnip'
 
 cmp.setup {
 	snippet = {
-	expand = function(args)
-	  luasnip.lsp_expand(args.body)
-	end,
+		expand = function(args)
+			luasnip.lsp_expand(args.body)
+		end,
 	},
 	mapping = cmp.mapping.preset.insert {
-	['<C-d>'] = cmp.mapping.scroll_docs(-4),
-	['<C-f>'] = cmp.mapping.scroll_docs(4),
-	['<C-Space>'] = cmp.mapping.complete(),
-	['<CR>'] = cmp.mapping.confirm {
-	  behavior = cmp.ConfirmBehavior.Replace,
-	  select = true,
-	},
-	['<Tab>'] = cmp.mapping(function(fallback)
-	  if cmp.visible() then
-		cmp.select_next_item()
-	  elseif luasnip.expand_or_jumpable() then
-		luasnip.expand_or_jump()
-	  else
-		fallback()
-	  end
-	end, { 'i', 's' }),
-	['<S-Tab>'] = cmp.mapping(function(fallback)
-	  if cmp.visible() then
-		cmp.select_prev_item()
-	  elseif luasnip.jumpable(-1) then
-		luasnip.jump(-1)
-	  else
-		fallback()
-	  end
-	end, { 'i', 's' }),
+		['<C-d>'] = cmp.mapping.scroll_docs(-4),
+		['<C-f>'] = cmp.mapping.scroll_docs(4),
+		['<C-Space>'] = cmp.mapping.complete(),
+		['<CR>'] = cmp.mapping.confirm {
+			behavior = cmp.ConfirmBehavior.Replace,
+			select = true,
+		},
+		['<Tab>'] = cmp.mapping(function(fallback)
+			if cmp.visible() then
+				cmp.select_next_item()
+			elseif luasnip.expand_or_jumpable() then
+				luasnip.expand_or_jump()
+			else
+				fallback()
+			end
+		end, { 'i', 's' }),
+		['<S-Tab>'] = cmp.mapping(function(fallback)
+			if cmp.visible() then
+				cmp.select_prev_item()
+			elseif luasnip.jumpable(-1) then
+				luasnip.jump(-1)
+			else
+				fallback()
+			end
+		end, { 'i', 's' }),
 	},
 	sources = {
 		{ name = 'nvim_lsp' },
@@ -584,6 +572,3 @@ function Love.SetLove()
 		map("n", "<space>rl", "<cmd>!love . &&<CR>", opts)
 	end
 end
-
--- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
