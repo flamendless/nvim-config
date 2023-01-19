@@ -92,12 +92,6 @@ require('packer').startup(function(use)
 	}
 	require('hlargs').setup()
 
-	use 'sunjon/shade.nvim'
-	require'shade'.setup({
-		overlay_opacity = 50,
-		opacity_step = 1,
-	})
-
 	use({
 		"utilyre/barbecue.nvim",
 		requires = {
@@ -272,14 +266,30 @@ vim.filetype.add({
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
-local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
-vim.api.nvim_create_autocmd('TextYankPost', {
-	callback = function()
-		vim.highlight.on_yank()
-	end,
-	group = highlight_group,
-	pattern = '*',
-})
+-- local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
+-- vim.api.nvim_create_autocmd('TextYankPost', {
+-- 	callback = function()
+-- 		vim.highlight.on_yank()
+-- 	end,
+-- 	group = highlight_group,
+-- 	pattern = '*',
+-- })
+
+
+local win32yank = "/mnt/c/Users/user/Documents/win32yank/win32yank.exe"
+vim.g.clipboard = {
+	name = "win3yank-wsl",
+	copy = {
+		["+"] = win32yank .. " -i --crlf",
+		["*"] = win32yank .. " -i --crlf"
+	},
+	paste = {
+		["+"] = win32yank .. " -o --crlf",
+		["*"] = win32yank .. " -o --crlf"
+	},
+	cache_enable = 0,
+}
+
 
 -- Set lualine as statusline
 -- See `:help lualine.txt`
