@@ -130,6 +130,14 @@ require('packer').startup(function(use)
 
 	use "haringsrob/nvim_context_vt"
 
+	use {
+		"folke/todo-comments.nvim",
+		requires = "nvim-lua/plenary.nvim",
+		config = function()
+			require("todo-comments").setup()
+		end
+	}
+
 	-- Fuzzy Finder (files, lsp, etc)
 	use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
 
