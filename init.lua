@@ -128,6 +128,8 @@ require('packer').startup(function(use)
 		end,
 	})
 
+	use "haringsrob/nvim_context_vt"
+
 	-- Fuzzy Finder (files, lsp, etc)
 	use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
 
@@ -326,7 +328,7 @@ pcall(require('telescope').load_extension, 'fzf')
 
 -- See `:help telescope.builtin`
 vim.keymap.set('n', '<leader>fo', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
--- vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
+vim.keymap.set('n', '<leader>fb', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
 vim.keymap.set('n', '<leader>/', function()
 	-- You can pass additional configuration to telescope to change theme, layout, etc.
 	require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
