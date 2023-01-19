@@ -63,7 +63,7 @@ require('packer').startup(function(use)
 	use "yamatsum/nvim-cursorline"
 	require('nvim-cursorline').setup {
 		cursorline = {
-			enable = true,
+			enable = false,
 			timeout = 1000,
 			number = false,
 		},
@@ -245,6 +245,7 @@ map("n", "<space>g", "<cmd>lua require(\'telescope.builtin\').grep_string({searc
 map("n", "<F5>", "<cmd>MundoToggle<cr>", opts)
 map("n", "<C-a>", "ggVG", opts)
 map("n", "<leader>e", "<cmd>NeoTreeShowToggle<CR>", opts)
+map("n", "<leader>nn", "<cmd>e /mnt/c/Users/user/Documents/notes/NOTES.md<CR>", opts)
 
 vim.cmd [[
 	map <silent> w <Plug>CamelCaseMotion_w
