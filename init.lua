@@ -235,17 +235,17 @@ map("n", "ss", "ciw", opts)
 map("n", "<leader><space>", "<C-w>w", opts)
 map("n", "H", "^", opts)
 map("n", "L", "$", opts)
-map("n", "<leader>o", "<C-w>o", opts)
-map("n", "<leader>b", "<cmd>BufferPrevious<CR>", opts)
-map("n", "<leader>n", "<cmd>BufferNext<CR>", opts)
-map("n", "<leader>c", "<cmd>BufferClose<CR>", opts)
+map("n", "<space>o", "<C-w>o", opts)
+map("n", "<space>b", "<cmd>BufferPrevious<CR>", opts)
+map("n", "<space>n", "<cmd>BufferNext<CR>", opts)
+map("n", "<space>c", "<cmd>BufferClose<CR>", opts)
 map("n", "<C-p>", function() require("telescope.builtin").find_files() end, { desc = "Search files" })
-map("n", "<leader>g", "<cmd>lua require(\'telescope.builtin\').grep_string({search = vim.fn.expand('<cword>')})<cr>",
+map("n", "<space>g", "<cmd>lua require(\'telescope.builtin\').grep_string({search = vim.fn.expand('<cword>')})<cr>",
 	{})
 map("n", "<F5>", "<cmd>MundoToggle<cr>", opts)
 map("n", "<C-a>", "ggVG", opts)
 map("n", "<leader>e", "<cmd>NeoTreeShowToggle<CR>", opts)
-map("n", "<leader>nn", "<cmd>e /mnt/c/Users/user/Documents/notes/NOTES.md<CR>", opts)
+map("n", "<F3>", "<cmd>e /mnt/c/Users/user/Documents/notes/NOTES.md<CR>", opts)
 
 vim.cmd [[
 	map <silent> w <Plug>CamelCaseMotion_w
@@ -370,33 +370,33 @@ require('nvim-treesitter.configs').setup {
 	ensure_installed = { 'lua', 'python', 'help', 'vim' },
 
 	highlight = { enable = true },
-	indent = { enable = true, disable = { 'python' } },
+	indent = { enable = true, disable = {} },
 	incremental_selection = {
-		enable = true,
+		enable = false,
 		keymaps = {
-			init_selection = '<c-space>',
-			node_incremental = '<c-space>',
-			scope_incremental = '<c-s>',
-			node_decremental = '<c-backspace>',
+			-- init_selection = '<c-space>',
+			-- node_incremental = '<c-space>',
+			-- scope_incremental = '<c-s>',
+			-- node_decremental = '<c-backspace>',
 		},
 	},
 	textobjects = {
 		select = {
-			enable = true,
-			lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
+			enable = false,
+			lookahead = false, -- Automatically jump forward to textobj, similar to targets.vim
 			keymaps = {
 			-- You can use the capture groups defined in textobjects.scm
-				['aa'] = '@parameter.outer',
-				['ia'] = '@parameter.inner',
-				['af'] = '@function.outer',
-				['if'] = '@function.inner',
-				['ac'] = '@class.outer',
-				['ic'] = '@class.inner',
+				-- ['aa'] = '@parameter.outer',
+				-- ['ia'] = '@parameter.inner',
+				-- ['af'] = '@function.outer',
+				-- ['if'] = '@function.inner',
+				-- ['ac'] = '@class.outer',
+				-- ['ic'] = '@class.inner',
 			},
 		},
 		move = {
-			enable = true,
-			set_jumps = true, -- whether to set jumps in the jumplist
+			enable = false,
+			set_jumps = false, -- whether to set jumps in the jumplist
 			goto_next_start = {
 				[']m'] = '@function.outer',
 				[']]'] = '@class.outer',
@@ -415,7 +415,7 @@ require('nvim-treesitter.configs').setup {
 			},
 		},
 		swap = {
-			enable = true,
+			enable = false,
 			swap_next = {
 				['<leader>a'] = '@parameter.inner',
 			},
