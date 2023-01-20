@@ -85,7 +85,15 @@ require('packer').startup(function(use)
 	})
 
 	use 'nvim-tree/nvim-web-devicons'
+
 	use {'romgrk/barbar.nvim', wants = 'nvim-web-devicons'}
+	require("bufferline").setup({
+		animation = false,
+		tabpages = false,
+		closable = false,
+		clickable = false,
+	})
+
 	use {
 		'm-demare/hlargs.nvim',
 		requires = { 'nvim-treesitter/nvim-treesitter' }
@@ -238,7 +246,7 @@ map("n", "L", "$", opts)
 map("n", "<space>o", "<C-w>o", opts)
 map("n", "<space>b", "<cmd>BufferPrevious<CR>", opts)
 map("n", "<space>n", "<cmd>BufferNext<CR>", opts)
-map("n", "<space>c", "<cmd>BufferClose<CR>", opts)
+map("n", "<space>x", "<cmd>BufferClose<CR>", opts)
 map("n", "<C-p>", function() require("telescope.builtin").find_files() end, { desc = "Search files" })
 map("n", "<space>g", "<cmd>lua require(\'telescope.builtin\').grep_string({search = vim.fn.expand('<cword>')})<cr>",
 	{})
