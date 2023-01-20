@@ -270,6 +270,9 @@ vim.filetype.add({
 		Love.SetLove()
 		return "lua"
 	end,
+	lua2p = function()
+		Love.SetLua2p()
+	end,
 	}
 })
 
@@ -601,4 +604,27 @@ function Love.SetLove()
 	else
 		map("n", "<space>rl", "<cmd>!love . &&<CR>", opts)
 	end
+end
+
+function Love.SetLua2p()
+	-- vim.bo.syntax = "lua"
+	vim.cmd[[set syntax=lua]]
+	vim.bo.commentstring = "--%s"
+	vim.cmd[[syn match luaFunc "self"]]
+	vim.cmd[[syn match luaOperator "\:"]]
+	vim.cmd[[syn match luaOperator "\."]]
+	vim.cmd[[syn match luaOperator "\["]]
+	vim.cmd[[syn match luaOperator "\]"]]
+	vim.cmd[[syn match luaOperator "("]]
+	vim.cmd[[syn match luaOperator ")"]]
+	vim.cmd[[syn match luaOperator ","]]
+	vim.cmd[[syn match luaOperator "+"]]
+	vim.cmd[[syn match luaOperator "-"]]
+	vim.cmd[[syn match luaOperator "="]]
+	vim.cmd[[syn match luaConstant "\$\<\w*\>"]]
+	vim.cmd[[syn match luaComment "!"]]
+	vim.cmd[[syn match luaComment "@"]]
+	vim.cmd[[syn match luaStatement "love.[a-z]*.[a-zA-Z]*"]]
+	-- vim.cmd([[set filetype=lua]])
+	Love.SetLove()
 end
