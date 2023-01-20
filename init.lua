@@ -232,15 +232,15 @@ local opts = { noremap = true, silent = true }
 local map = vim.keymap.set
 map("n", "<ESC>", "<cmd>nohlsearch<CR>", opts)
 map("n", "ss", "ciw", opts)
-map("n", "<space><space>", "<C-w>w", opts)
+map("n", "<leader><space>", "<C-w>w", opts)
 map("n", "H", "^", opts)
 map("n", "L", "$", opts)
-map("n", "<space>o", "<C-w>o", opts)
-map("n", "<space>b", "<cmd>bprev<CR>", opts)
-map("n", "<space>n", "<cmd>bnext<CR>", opts)
-map("n", "<space>c", "<cmd>bd<CR>", opts)
+map("n", "<leader>o", "<C-w>o", opts)
+map("n", "<leader>b", "<cmd>BufferPrevious<CR>", opts)
+map("n", "<leader>n", "<cmd>BufferNext<CR>", opts)
+map("n", "<leader>c", "<cmd>BufferClose<CR>", opts)
 map("n", "<C-p>", function() require("telescope.builtin").find_files() end, { desc = "Search files" })
-map("n", "<space>g", "<cmd>lua require(\'telescope.builtin\').grep_string({search = vim.fn.expand('<cword>')})<cr>",
+map("n", "<leader>g", "<cmd>lua require(\'telescope.builtin\').grep_string({search = vim.fn.expand('<cword>')})<cr>",
 	{})
 map("n", "<F5>", "<cmd>MundoToggle<cr>", opts)
 map("n", "<C-a>", "ggVG", opts)
