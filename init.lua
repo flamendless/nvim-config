@@ -130,7 +130,7 @@ require('packer').startup(function(use)
 		end,
 	})
 
-	use "haringsrob/nvim_context_vt"
+	-- use "haringsrob/nvim_context_vt"
 
 	use {
 		"folke/todo-comments.nvim",
