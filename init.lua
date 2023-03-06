@@ -142,6 +142,28 @@ require('packer').startup(function(use)
 
 	use "tikhomirov/vim-glsl"
 
+	use {
+		"nvim-neorg/neorg",
+		config = function()
+			require('neorg').setup {
+				load = {
+					["core.defaults"] = {}, -- Loads default behaviour
+					["core.norg.concealer"] = {}, -- Adds pretty icons to your documents
+					["core.norg.dirman"] = { -- Manages Neorg workspaces
+						config = {
+							workspaces = {
+								work = "~/notes/work",
+								gamedev = "~/notes/gamedev",
+							},
+						},
+					},
+				},
+			}
+		end,
+		run = ":Neorg sync-parsers",
+		requires = "nvim-lua/plenary.nvim",
+	}
+
 	-- Fuzzy Finder (files, lsp, etc)
 	use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
 
@@ -255,7 +277,9 @@ map("n", "<space>g", "<cmd>lua require(\'telescope.builtin\').grep_string({searc
 map("n", "<F5>", "<cmd>MundoToggle<cr>", opts)
 map("n", "<C-a>", "ggVG", opts)
 map("n", "<leader>e", "<cmd>NeoTreeShowToggle<CR>", opts)
-map("n", "<F3>", "<cmd>e /mnt/c/Users/user/Documents/notes/NOTES.md<CR>", opts)
+
+map("n", "<leader>nw", "<cmd>Neorg workspace work<CR>", opts)
+map("n", "<leader>ng", "<cmd>Neorg workspace gamedev<CR>", opts)
 
 vim.cmd [[
 	map <silent> w <Plug>CamelCaseMotion_w
