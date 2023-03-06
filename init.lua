@@ -152,8 +152,8 @@ require('packer').startup(function(use)
 					["core.norg.dirman"] = { -- Manages Neorg workspaces
 						config = {
 							workspaces = {
-								work = "~/notes/work",
-								gamedev = "~/notes/gamedev",
+								work = "/mnt/c/Users/user/Documents/notes/work",
+								gamedev = "/mnt/c/Users/user/Documents/notes/gamedev",
 							},
 						},
 					},
