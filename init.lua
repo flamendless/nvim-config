@@ -278,8 +278,8 @@ map("n", "<F5>", "<cmd>MundoToggle<cr>", opts)
 map("n", "<C-a>", "ggVG", opts)
 map("n", "<leader>e", "<cmd>NeoTreeShowToggle<CR>", opts)
 
-map("n", "<leader>nw", "<cmd>Neorg workspace work<CR>", opts)
-map("n", "<leader>ng", "<cmd>Neorg workspace gamedev<CR>", opts)
+map("n", "<leader>tw", "<cmd>Neorg workspace work<CR>", opts)
+map("n", "<leader>tg", "<cmd>Neorg workspace gamedev<CR>", opts)
 
 vim.cmd [[
 	map <silent> w <Plug>CamelCaseMotion_w
