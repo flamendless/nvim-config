@@ -148,7 +148,11 @@ require('packer').startup(function(use)
 			require('neorg').setup {
 				load = {
 					["core.defaults"] = {},
-					["core.norg.concealer"] = {},
+					["core.norg.concealer"] = {
+						config = {
+							folds = false,
+						},
+					},
 					["core.norg.dirman"] = {
 						config = {
 							workspaces = {
