@@ -153,6 +153,12 @@ require('packer').startup(function(use)
 							folds = false,
 						},
 					},
+					["core.norg.esupports.indent"] = {
+						config = {
+							format_on_enter = false,
+							format_on_escape = false,
+						},
+					},
 					["core.norg.dirman"] = {
 						config = {
 							workspaces = {
