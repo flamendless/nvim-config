@@ -155,8 +155,8 @@ require('packer').startup(function(use)
 					},
 					["core.norg.esupports.indent"] = {
 						config = {
-							format_on_enter = false,
-							format_on_escape = false,
+							-- format_on_enter = false,
+							-- format_on_escape = false,
 						},
 					},
 					["core.norg.dirman"] = {
