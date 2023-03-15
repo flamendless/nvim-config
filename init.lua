@@ -302,13 +302,16 @@ vim.cmd [[
 
 vim.filetype.add({
 	extension = {
-	lua = function()
-		Love.SetLove()
-		return "lua"
-	end,
-	lua2p = function()
-		Love.SetLua2p()
-	end,
+		lua = function()
+			Love.SetLove()
+			return "lua"
+		end,
+		lua2p = function()
+			Love.SetLua2p()
+		end,
+		norg = function()
+			vim.opt_local.expandtab = true
+		end
 	}
 })
 
