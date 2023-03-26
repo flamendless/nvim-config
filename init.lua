@@ -53,7 +53,8 @@ require('packer').startup(function(use)
 	use "gpanders/editorconfig.nvim"
 	use "f-person/git-blame.nvim"
 	use "simnalamburt/vim-mundo"
-	use "bkad/CamelCaseMotion"
+	-- use "bkad/CamelCaseMotion"
+	use {"chrisgrieser/nvim-spider"}
 	use "jdhao/whitespace.nvim"
 	use "luisiacc/gruvbox-baby"
 
@@ -291,14 +292,19 @@ map("n", "<leader>e", "<cmd>NeoTreeShowToggle<CR>", opts)
 map("n", "<leader>tw", "<cmd>Neorg workspace work<CR>", opts)
 map("n", "<leader>tg", "<cmd>Neorg workspace gamedev<CR>", opts)
 
-vim.cmd [[
-	map <silent> w <Plug>CamelCaseMotion_w
-	map <silent> b <Plug>CamelCaseMotion_b
-	map <silent> e <Plug>CamelCaseMotion_e
-	sunmap w
-	sunmap b
-	sunmap e
-]]
+-- vim.cmd [[
+-- 	map <silent> w <Plug>CamelCaseMotion_w
+-- 	map <silent> b <Plug>CamelCaseMotion_b
+-- 	map <silent> e <Plug>CamelCaseMotion_e
+-- 	sunmap w
+-- 	sunmap b
+-- 	sunmap e
+-- ]]
+
+vim.keymap.set({"n", "o", "x"}, "w", function() require("spider").motion("w") end, { desc = "Spider-w" })
+vim.keymap.set({"n", "o", "x"}, "e", function() require("spider").motion("e") end, { desc = "Spider-e" })
+vim.keymap.set({"n", "o", "x"}, "b", function() require("spider").motion("b") end, { desc = "Spider-b" })
+vim.keymap.set({"n", "o", "x"}, "ge", function() require("spider").motion("ge") end, { desc = "Spider-ge" })
 
 vim.filetype.add({
 	extension = {
