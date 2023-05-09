@@ -91,7 +91,7 @@ require('packer').startup(function(use)
 	require("bufferline").setup({
 		animation = false,
 		tabpages = false,
-		closable = false,
+		-- closable = false,
 		clickable = false,
 	})
 
@@ -148,19 +148,26 @@ require('packer').startup(function(use)
 		config = function()
 			require('neorg').setup {
 				load = {
-					["core.defaults"] = {},
-					["core.norg.concealer"] = {
+					["core.defaults"] = {
+						config = {
+							disable = {
+								"core.concealer",
+							}
+						}
+
+					},
+					["core.concealer"] = {
 						config = {
 							folds = false,
 						},
 					},
-					["core.norg.esupports.indent"] = {
+					["core.esupports.indent"] = {
 						config = {
 							-- format_on_enter = false,
 							-- format_on_escape = false,
 						},
 					},
-					["core.norg.dirman"] = {
+					["core.dirman"] = {
 						config = {
 							workspaces = {
 								work = "/mnt/c/Users/user/Documents/notes/work",
