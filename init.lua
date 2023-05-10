@@ -146,7 +146,7 @@ require('packer').startup(function(use)
 	use {
 		"nvim-neorg/neorg",
 		config = function()
-			require('neorg').setup {
+			require("neorg").setup {
 				load = {
 					["core.defaults"] = {
 						config = {
@@ -154,13 +154,12 @@ require('packer').startup(function(use)
 								"core.concealer",
 							}
 						}
-
 					},
-					["core.concealer"] = {
-						config = {
-							folds = false,
-						},
-					},
+					-- ["core.concealer"] = {
+					-- 	config = {
+					-- 		folds = false,
+					-- 	},
+					-- },
 					["core.esupports.indent"] = {
 						config = {
 							-- format_on_enter = false,
