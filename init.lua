@@ -550,8 +550,10 @@ local servers = {
 	-- gopls = {},
 	-- pyright = {},
 	-- rust_analyzer = {},
-	-- tsserver = {},
 
+	-- Install these as well
+	-- tsserver = {},
+	-- ruff_lsp = {},
 	lua_ls = {
 		Lua = {
 		  workspace = { checkThirdParty = true },
