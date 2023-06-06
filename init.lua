@@ -171,6 +171,7 @@ require('packer').startup(function(use)
 							workspaces = {
 								work = "/mnt/c/Users/user/Documents/notes/work",
 								gamedev = "/mnt/c/Users/user/Documents/notes/gamedev",
+								church = "/mnt/c/Users/user/Documents/notes/church",
 							},
 						},
 					},
@@ -297,6 +298,7 @@ map("n", "<leader>e", "<cmd>NeoTreeShowToggle<CR>", opts)
 
 map("n", "<leader>tw", "<cmd>Neorg workspace work<CR>", opts)
 map("n", "<leader>tg", "<cmd>Neorg workspace gamedev<CR>", opts)
+map("n", "<leader>tc", "<cmd>Neorg workspace church<CR>", opts)
 
 -- vim.cmd [[
 -- 	map <silent> w <Plug>CamelCaseMotion_w
