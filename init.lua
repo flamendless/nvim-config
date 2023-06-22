@@ -152,6 +152,7 @@ require('packer').startup(function(use)
 						config = {
 							disable = {
 								"core.concealer",
+								"core.clipboard.code-blocks"
 							}
 						}
 					},
