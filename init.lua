@@ -144,6 +144,11 @@ require('packer').startup(function(use)
 	use "tikhomirov/vim-glsl"
 
 	use {
+		"folke/trouble.nvim",
+		requires = "nvim-tree/nvim-web-devicons",
+	}
+
+	use {
 		"nvim-neorg/neorg",
 		config = function()
 			require("neorg").setup {
@@ -296,6 +301,7 @@ map("n", "<space>g", "<cmd>lua require(\'telescope.builtin\').grep_string({searc
 map("n", "<F5>", "<cmd>MundoToggle<cr>", opts)
 map("n", "<C-a>", "ggVG", opts)
 map("n", "<leader>e", "<cmd>NeoTreeShowToggle<CR>", opts)
+map("n", "<F4>", "<cmd>TroubleToggle<CR>", opts)
 
 map("n", "<leader>tw", "<cmd>Neorg workspace work<CR>", opts)
 map("n", "<leader>tg", "<cmd>Neorg workspace gamedev<CR>", opts)
