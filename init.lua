@@ -148,6 +148,14 @@ require('packer').startup(function(use)
 		requires = "nvim-tree/nvim-web-devicons",
 	}
 
+	use({
+		'Wansmer/treesj',
+		requires = { 'nvim-treesitter' },
+		config = function()
+			require('treesj').setup({})
+		end,
+	})
+
 	use {
 		"nvim-neorg/neorg",
 		config = function()
