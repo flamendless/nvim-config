@@ -131,8 +131,6 @@ require('packer').startup(function(use)
 		end,
 	})
 
-	-- use "haringsrob/nvim_context_vt"
-
 	use {
 		"folke/todo-comments.nvim",
 		requires = "nvim-lua/plenary.nvim",
@@ -155,46 +153,6 @@ require('packer').startup(function(use)
 			require('treesj').setup({})
 		end,
 	})
-
-	use {
-		"nvim-neorg/neorg",
-		config = function()
-			require("neorg").setup {
-				load = {
-					["core.defaults"] = {
-						config = {
-							disable = {
-								"core.concealer",
-								"core.clipboard.code-blocks"
-							}
-						}
-					},
-					-- ["core.concealer"] = {
-					-- 	config = {
-					-- 		folds = false,
-					-- 	},
-					-- },
-					["core.esupports.indent"] = {
-						config = {
-							-- format_on_enter = false,
-							-- format_on_escape = false,
-						},
-					},
-					["core.dirman"] = {
-						config = {
-							workspaces = {
-								work = "/mnt/c/Users/user/Documents/notes/work",
-								gamedev = "/mnt/c/Users/user/Documents/notes/gamedev",
-								church = "/mnt/c/Users/user/Documents/notes/church",
-							},
-						},
-					},
-				},
-			}
-		end,
-		run = ":Neorg sync-parsers",
-		requires = "nvim-lua/plenary.nvim",
-	}
 
 	-- Fuzzy Finder (files, lsp, etc)
 	use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
@@ -311,9 +269,6 @@ map("n", "<C-a>", "ggVG", opts)
 map("n", "<leader>e", "<cmd>NeoTreeShowToggle<CR>", opts)
 map("n", "<F4>", "<cmd>TroubleToggle<CR>", opts)
 
-map("n", "<leader>tw", "<cmd>Neorg workspace work<CR>", opts)
-map("n", "<leader>tg", "<cmd>Neorg workspace gamedev<CR>", opts)
-map("n", "<leader>tc", "<cmd>Neorg workspace church<CR>", opts)
 
 -- vim.cmd [[
 -- 	map <silent> w <Plug>CamelCaseMotion_w
