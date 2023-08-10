@@ -154,6 +154,18 @@ require('packer').startup(function(use)
 		end,
 	})
 
+	use({
+		"NeogitOrg/neogit",
+		requires = {
+			"nvim-lua/plenary.nvim",
+			"nvim-telescope/telescope.nvim",
+			"sindrets/diffview.nvim",
+		},
+		config = function()
+			require("neogit").setup({})
+		end,
+	})
+
 	-- Fuzzy Finder (files, lsp, etc)
 	use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
 
