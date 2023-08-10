@@ -409,6 +409,8 @@ vim.keymap.set('n', '<leader>fw', require('telescope.builtin').live_grep, { desc
 vim.keymap.set('n', '<leader>fd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 vim.keymap.set('n', '<leader>ft', "<cmd>TodoTelescope<CR>", { desc = '[S]earch [D]iagnostics' })
 
+vim.keymap.set('n', '<leader>ng', require("neogit").open, { desc = "Open Neogit" })
+
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
