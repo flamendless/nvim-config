@@ -166,6 +166,11 @@ require('packer').startup(function(use)
 		end,
 	})
 
+	use({
+		"ten3roberts/qf.nvim",
+		config = function() require("qf").setup({}) end
+	})
+
 	-- Fuzzy Finder (files, lsp, etc)
 	use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
 
@@ -410,6 +415,9 @@ vim.keymap.set('n', '<leader>fd', require('telescope.builtin').diagnostics, { de
 vim.keymap.set('n', '<leader>ft', "<cmd>TodoTelescope<CR>", { desc = '[S]earch [D]iagnostics' })
 
 vim.keymap.set('n', '<leader>t', require("neogit").open, { desc = "Open Neogit" })
+vim.keymap.set('n', '<leader>qt', function() require("qf").toggle("c", true) end, {desc = ""})
+vim.keymap.set('n', '<leader>qb', function() require("qf").above("c") end, {desc = ""})
+vim.keymap.set('n', '<leader>qn', function() require("qf").below("c") end, {desc = ""})
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
