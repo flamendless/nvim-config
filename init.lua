@@ -171,6 +171,11 @@ require('packer').startup(function(use)
 		config = function() require("qf").setup({}) end
 	})
 
+	use({
+		"stevearc/oil.nvim",
+		config = function() require("oil").setup() end
+	})
+
 	-- Fuzzy Finder (files, lsp, etc)
 	use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
 
@@ -359,14 +364,41 @@ require('Comment').setup()
 
 -- Enable `lukas-reineke/indent-blankline.nvim`
 -- See `:help indent_blankline.txt`
-require('indent_blankline').setup {
-	char = '┊',
-	show_trailing_blankline_indent = true,
-	show_end_of_line = true,
-	space_char_blankline = " ",
-	show_current_context = true,
-	show_current_context_start = true,
-}
+-- local highlight = {
+-- 	"RainbowRed",
+-- 	"RainbowYellow",
+-- 	"RainbowBlue",
+-- 	"RainbowOrange",
+-- 	"RainbowGreen",
+-- 	"RainbowViolet",
+-- 	"RainbowCyan",
+-- }
+-- local hooks = require("ibl.hooks")
+-- hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
+-- 	vim.api.nvim_set_hl(0, "RainbowRed", { fg = "#E06C75" })
+-- 	vim.api.nvim_set_hl(0, "RainbowYellow", { fg = "#E5C07B" })
+-- 	vim.api.nvim_set_hl(0, "RainbowBlue", { fg = "#61AFEF" })
+-- 	vim.api.nvim_set_hl(0, "RainbowOrange", { fg = "#D19A66" })
+-- 	vim.api.nvim_set_hl(0, "RainbowGreen", { fg = "#98C379" })
+-- 	vim.api.nvim_set_hl(0, "RainbowViolet", { fg = "#C678DD" })
+-- 	vim.api.nvim_set_hl(0, "RainbowCyan", { fg = "#56B6C2" })
+-- end)
+local highlight = { "CursorColumn", "Whitespace" }
+
+require("ibl").setup({
+	indent = {
+		highlight = highlight,
+		char = '┊',
+	},
+	whitespace = {
+		highlight = highlight,
+		remove_blankline_trail = true,
+	},
+	scope = {
+		highlight = {"Function", "Label"},
+		enabled = true,
+	},
+})
 
 -- Gitsigns
 -- See `:help gitsigns.txt`
