@@ -52,7 +52,6 @@ require('packer').startup(function(use)
 	use 'tpope/vim-sleuth' -- Detect tabstop and shiftwidth automatically
 	use "gpanders/editorconfig.nvim"
 	use "f-person/git-blame.nvim"
-	use "simnalamburt/vim-mundo"
 	-- use "bkad/CamelCaseMotion"
 	use {"chrisgrieser/nvim-spider"}
 	use "jdhao/whitespace.nvim"
@@ -298,7 +297,6 @@ map("n", "<space>x", "<cmd>BufferClose<CR>", opts)
 map("n", "<C-p>", function() require("telescope.builtin").find_files() end, { desc = "Search files" })
 map("n", "<space>gg", "<cmd>lua require(\'telescope.builtin\').grep_string({search = vim.fn.expand('<cword>')})<cr>", {})
 map("n", "<space>gr", "<cmd>lua require(\'telescope.builtin\').resume()<cr>", {})
-map("n", "<F5>", "<cmd>MundoToggle<cr>", opts)
 map("n", "<C-a>", "ggVG", opts)
 map("n", "<leader>e", "<cmd>NeoTreeShowToggle<CR>", opts)
 map("n", "<F4>", "<cmd>TroubleToggle<CR>", opts)
