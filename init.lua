@@ -31,7 +31,7 @@ require('packer').startup(function(use)
 	use {
 		'nvim-treesitter/nvim-treesitter',
 		run = function()
-		  pcall(require('nvim-treesitter.install').update { with_sync = true })
+			pcall(require('nvim-treesitter.install').update { with_sync = true })
 		end,
 	}
 
@@ -45,15 +45,15 @@ require('packer').startup(function(use)
 	use 'tpope/vim-rhubarb'
 	use 'lewis6991/gitsigns.nvim'
 
-	use 'navarasu/onedark.nvim' -- Theme inspired by Atom
-	use 'nvim-lualine/lualine.nvim' -- Fancier statusline
+	use 'navarasu/onedark.nvim'            -- Theme inspired by Atom
+	use 'nvim-lualine/lualine.nvim'        -- Fancier statusline
 	use 'lukas-reineke/indent-blankline.nvim' -- Add indentation guides even on blank lines
-	use 'numToStr/Comment.nvim' -- "gc" to comment visual regions/lines
-	use 'tpope/vim-sleuth' -- Detect tabstop and shiftwidth automatically
+	use 'numToStr/Comment.nvim'            -- "gc" to comment visual regions/lines
+	use 'tpope/vim-sleuth'                 -- Detect tabstop and shiftwidth automatically
 	use "gpanders/editorconfig.nvim"
 	use "f-person/git-blame.nvim"
 	-- use "bkad/CamelCaseMotion"
-	use {"chrisgrieser/nvim-spider"}
+	use { "chrisgrieser/nvim-spider" }
 	use "jdhao/whitespace.nvim"
 	use "luisiacc/gruvbox-baby"
 
@@ -86,7 +86,7 @@ require('packer').startup(function(use)
 
 	use 'nvim-tree/nvim-web-devicons'
 
-	use {'romgrk/barbar.nvim', wants = 'nvim-web-devicons'}
+	use { 'romgrk/barbar.nvim', wants = 'nvim-web-devicons' }
 	require("bufferline").setup({
 		animation = false,
 		tabpages = false,
@@ -116,15 +116,32 @@ require('packer').startup(function(use)
 					separator = " | ",
 				},
 				kinds = {
-					File = "", Module = "", Namespace = "",
-					Package = "", Class = "", Method = "",
-					Property = "", Field = "", Constructor = "",
-					Enum = "", Interface = "", Function = "",
-					Variable = "", Constant = "", String = "",
-					Number = "", Boolean = "", Array = "",
-					Object = "", Key = "", Null = "",
-					EnumMember = "", Struct = "", Event = "",
-					Operator = "", TypeParameter = "",
+					File = "",
+					Module = "",
+					Namespace = "",
+					Package = "",
+					Class = "",
+					Method = "",
+					Property = "",
+					Field = "",
+					Constructor = "",
+					Enum = "",
+					Interface = "",
+					Function = "",
+					Variable = "",
+					Constant = "",
+					String = "",
+					Number = "",
+					Boolean = "",
+					Array = "",
+					Object = "",
+					Key = "",
+					Null = "",
+					EnumMember = "",
+					Struct = "",
+					Event = "",
+					Operator = "",
+					TypeParameter = "",
 				},
 			})
 		end,
@@ -177,7 +194,7 @@ require('packer').startup(function(use)
 
 	use({
 		"hinell/lsp-timeout.nvim",
-		requires={ "neovim/nvim-lspconfig" },
+		requires = { "neovim/nvim-lspconfig" },
 		setup = function()
 			vim.g["lsp-timeout-config"] = {
 				stopTimeout = 1000 * 60 * 5,
@@ -311,10 +328,10 @@ map("n", "<F4>", "<cmd>TroubleToggle<CR>", opts)
 -- 	sunmap e
 -- ]]
 
-vim.keymap.set({"n", "o", "x"}, "w", function() require("spider").motion("w") end, { desc = "Spider-w" })
-vim.keymap.set({"n", "o", "x"}, "e", function() require("spider").motion("e") end, { desc = "Spider-e" })
-vim.keymap.set({"n", "o", "x"}, "b", function() require("spider").motion("b") end, { desc = "Spider-b" })
-vim.keymap.set({"n", "o", "x"}, "ge", function() require("spider").motion("ge") end, { desc = "Spider-ge" })
+vim.keymap.set({ "n", "o", "x" }, "w", function() require("spider").motion("w") end, { desc = "Spider-w" })
+vim.keymap.set({ "n", "o", "x" }, "e", function() require("spider").motion("e") end, { desc = "Spider-e" })
+vim.keymap.set({ "n", "o", "x" }, "b", function() require("spider").motion("b") end, { desc = "Spider-b" })
+vim.keymap.set({ "n", "o", "x" }, "ge", function() require("spider").motion("ge") end, { desc = "Spider-ge" })
 
 vim.filetype.add({
 	extension = {
@@ -405,7 +422,7 @@ require("ibl").setup({
 		remove_blankline_trail = true,
 	},
 	scope = {
-		highlight = {"Function", "Label"},
+		highlight = { "Function", "Label" },
 		enabled = true,
 	},
 })
@@ -427,10 +444,10 @@ require('gitsigns').setup {
 require('telescope').setup {
 	defaults = {
 		mappings = {
-		  i = {
-			['<C-u>'] = false,
-			['<C-d>'] = false,
-		  },
+			i = {
+				['<C-u>'] = false,
+				['<C-d>'] = false,
+			},
 		},
 	},
 }
@@ -457,9 +474,9 @@ vim.keymap.set('n', '<leader>fd', require('telescope.builtin').diagnostics, { de
 vim.keymap.set('n', '<leader>ft', "<cmd>TodoTelescope<CR>", { desc = '[S]earch [D]iagnostics' })
 
 vim.keymap.set('n', '<leader>t', require("neogit").open, { desc = "Open Neogit" })
-vim.keymap.set('n', '<leader>qt', function() require("qf").toggle("c", true) end, {desc = ""})
-vim.keymap.set('n', '<leader>qb', function() require("qf").above("c") end, {desc = ""})
-vim.keymap.set('n', '<leader>qn', function() require("qf").below("c") end, {desc = ""})
+vim.keymap.set('n', '<leader>qt', function() require("qf").toggle("c", true) end, { desc = "" })
+vim.keymap.set('n', '<leader>qb', function() require("qf").above("c") end, { desc = "" })
+vim.keymap.set('n', '<leader>qn', function() require("qf").below("c") end, { desc = "" })
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
@@ -483,7 +500,7 @@ require('nvim-treesitter.configs').setup {
 			enable = false,
 			lookahead = false, -- Automatically jump forward to textobj, similar to targets.vim
 			keymaps = {
-			-- You can use the capture groups defined in textobjects.scm
+				-- You can use the capture groups defined in textobjects.scm
 				-- ['aa'] = '@parameter.outer',
 				-- ['ia'] = '@parameter.inner',
 				-- ['af'] = '@function.outer',
@@ -572,7 +589,7 @@ local on_attach = function(_, bufnr)
 	-- Create a command `:Format` local to the LSP buffer
 	vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
 		vim.lsp.buf.format()
-		end, { desc = 'Format current buffer with LSP' }
+	end, { desc = 'Format current buffer with LSP' }
 	)
 end
 
@@ -583,7 +600,16 @@ end
 --	the `settings` field of the server config. You must look up that documentation yourself.
 local servers = {
 	-- clangd = {},
-	-- gopls = {},
+	gopls = {
+		hints = {
+			assignVariableTypes = true,
+			compositeLiteralFields = true,
+			constantValues = true,
+			functionTypeParameters = true,
+			parameterNames = true,
+			rangeVariableTypes = true
+		}
+	},
 	-- pyright = {},
 	-- rust_analyzer = {},
 
@@ -592,8 +618,8 @@ local servers = {
 	-- ruff_lsp = {},
 	lua_ls = {
 		Lua = {
-		  workspace = { checkThirdParty = true },
-		  telemetry = { enable = false },
+			workspace = { checkThirdParty = true },
+			telemetry = { enable = false },
 		},
 	},
 }
@@ -697,23 +723,23 @@ end
 
 function Love.SetLua2p()
 	-- vim.bo.syntax = "lua"
-	vim.cmd[[set syntax=lua]]
+	vim.cmd [[set syntax=lua]]
 	vim.bo.commentstring = "--%s"
-	vim.cmd[[syn match luaFunc "self"]]
-	vim.cmd[[syn match luaOperator "\:"]]
-	vim.cmd[[syn match luaOperator "\."]]
-	vim.cmd[[syn match luaOperator "\["]]
-	vim.cmd[[syn match luaOperator "\]"]]
-	vim.cmd[[syn match luaOperator "("]]
-	vim.cmd[[syn match luaOperator ")"]]
-	vim.cmd[[syn match luaOperator ","]]
-	vim.cmd[[syn match luaOperator "+"]]
-	vim.cmd[[syn match luaOperator "-"]]
-	vim.cmd[[syn match luaOperator "="]]
-	vim.cmd[[syn match luaConstant "\$\<\w*\>"]]
-	vim.cmd[[syn match luaComment "!"]]
-	vim.cmd[[syn match luaComment "@"]]
-	vim.cmd[[syn match luaStatement "love.[a-z]*.[a-zA-Z]*"]]
+	vim.cmd [[syn match luaFunc "self"]]
+	vim.cmd [[syn match luaOperator "\:"]]
+	vim.cmd [[syn match luaOperator "\."]]
+	vim.cmd [[syn match luaOperator "\["]]
+	vim.cmd [[syn match luaOperator "\]"]]
+	vim.cmd [[syn match luaOperator "("]]
+	vim.cmd [[syn match luaOperator ")"]]
+	vim.cmd [[syn match luaOperator ","]]
+	vim.cmd [[syn match luaOperator "+"]]
+	vim.cmd [[syn match luaOperator "-"]]
+	vim.cmd [[syn match luaOperator "="]]
+	vim.cmd [[syn match luaConstant "\$\<\w*\>"]]
+	vim.cmd [[syn match luaComment "!"]]
+	vim.cmd [[syn match luaComment "@"]]
+	vim.cmd [[syn match luaStatement "love.[a-z]*.[a-zA-Z]*"]]
 	-- vim.cmd([[set filetype=lua]])
 	Love.SetLove()
 end
