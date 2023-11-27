@@ -196,10 +196,13 @@ require('packer').startup(function(use)
 		"hinell/lsp-timeout.nvim",
 		requires = { "neovim/nvim-lspconfig" },
 		setup = function()
-			vim.g["lsp-timeout-config"] = {
+			vim.g["lspTimeoutConfig"] = {
 				stopTimeout = 1000 * 60 * 5,
 				startTimeout = 1000 * 10,
-				silent = false
+				silent = false,
+				filetypes = {
+					ignore = {"lua"},
+				}
 			}
 		end
 	})
