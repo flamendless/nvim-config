@@ -52,8 +52,7 @@ require('packer').startup(function(use)
 	use 'tpope/vim-sleuth'                 -- Detect tabstop and shiftwidth automatically
 	use "gpanders/editorconfig.nvim"
 	use "f-person/git-blame.nvim"
-	-- use "bkad/CamelCaseMotion"
-	use { "chrisgrieser/nvim-spider" }
+	use "backdround/neowords.nvim"
 	use "jdhao/whitespace.nvim"
 	use "luisiacc/gruvbox-baby"
 
@@ -322,19 +321,23 @@ map("n", "<leader>e", "<cmd>NeoTreeShowToggle<CR>", opts)
 map("n", "<F4>", "<cmd>TroubleToggle<CR>", opts)
 
 
--- vim.cmd [[
--- 	map <silent> w <Plug>CamelCaseMotion_w
--- 	map <silent> b <Plug>CamelCaseMotion_b
--- 	map <silent> e <Plug>CamelCaseMotion_e
--- 	sunmap w
--- 	sunmap b
--- 	sunmap e
--- ]]
+local neowords = require("neowords")
+local p = neowords.pattern_presets
 
-vim.keymap.set({ "n", "o", "x" }, "w", function() require("spider").motion("w") end, { desc = "Spider-w" })
-vim.keymap.set({ "n", "o", "x" }, "e", function() require("spider").motion("e") end, { desc = "Spider-e" })
-vim.keymap.set({ "n", "o", "x" }, "b", function() require("spider").motion("b") end, { desc = "Spider-b" })
-vim.keymap.set({ "n", "o", "x" }, "ge", function() require("spider").motion("ge") end, { desc = "Spider-ge" })
+local hops = neowords.get_word_hops(
+  p.snake_case,
+  p.camel_case,
+  p.upper_case,
+  p.number,
+  p.hex_color,
+  "\\v\\.+",
+  "\\v,+"
+)
+
+vim.keymap.set({ "n", "x", "o" }, "w", hops.forward_start)
+vim.keymap.set({ "n", "x", "o" }, "e", hops.forward_end)
+vim.keymap.set({ "n", "x", "o" }, "b", hops.backward_start)
+vim.keymap.set({ "n", "x", "o" }, "ge", hops.backward_end)
 
 vim.filetype.add({
 	extension = {
@@ -629,6 +632,25 @@ local servers = {
 			telemetry = { enable = false },
 		},
 	},
+
+	pylsp = {
+		pylsp = {
+			plugins = {
+				mccabe = {
+					enabled = false,
+				},
+				pydocstyle = {
+					enabled = false,
+				},
+				rope_autoimport = {
+					enabled=false,
+				},
+				flake8 = {
+					enabled=false,
+				},
+			}
+		}
+	}
 }
 
 -- Setup neovim lua configuration
