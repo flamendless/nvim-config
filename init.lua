@@ -200,7 +200,7 @@ require('packer').startup(function(use)
 				startTimeout = 1000 * 10,
 				silent = false,
 				filetypes = {
-					ignore = {"lua"},
+					ignore = { "lua" },
 				}
 			}
 		end
@@ -325,13 +325,13 @@ local neowords = require("neowords")
 local p = neowords.pattern_presets
 
 local hops = neowords.get_word_hops(
-  p.snake_case,
-  p.camel_case,
-  p.upper_case,
-  p.number,
-  p.hex_color,
-  "\\v\\.+",
-  "\\v,+"
+	p.snake_case,
+	p.camel_case,
+	p.upper_case,
+	p.number,
+	p.hex_color,
+	"\\v\\.+",
+	"\\v,+"
 )
 
 vim.keymap.set({ "n", "x", "o" }, "w", hops.forward_start)
@@ -367,19 +367,19 @@ vim.filetype.add({
 -- })
 
 
-local win32yank = "/mnt/c/Users/user/Documents/win32yank/win32yank.exe"
-vim.g.clipboard = {
-	name = "win3yank-wsl",
-	copy = {
-		["+"] = win32yank .. " -i --crlf",
-		["*"] = win32yank .. " -i --crlf"
-	},
-	paste = {
-		["+"] = win32yank .. " -o --crlf",
-		["*"] = win32yank .. " -o --crlf"
-	},
-	cache_enable = 0,
-}
+-- local win32yank = "/mnt/c/Users/user/Documents/win32yank/win32yank.exe"
+-- vim.g.clipboard = {
+-- 	name = "win3yank-wsl",
+-- 	copy = {
+-- 		["+"] = win32yank .. " -i --crlf",
+-- 		["*"] = win32yank .. " -i --crlf"
+-- 	},
+-- 	paste = {
+-- 		["+"] = win32yank .. " -o --crlf",
+-- 		["*"] = win32yank .. " -o --crlf"
+-- 	},
+-- 	cache_enable = 0,
+-- }
 
 
 -- Set lualine as statusline
@@ -609,7 +609,6 @@ end
 --	Add any additional override configuration in the following tables. They will be passed to
 --	the `settings` field of the server config. You must look up that documentation yourself.
 local servers = {
-	-- clangd = {},
 	gopls = {
 		hints = {
 			assignVariableTypes = true,
@@ -620,37 +619,13 @@ local servers = {
 			rangeVariableTypes = true
 		}
 	},
-	-- pyright = {},
-	-- rust_analyzer = {},
-
-	-- Install these as well
-	-- tsserver = {},
-	-- ruff_lsp = {},
+	ruff_lsp = {},
 	lua_ls = {
 		Lua = {
 			workspace = { checkThirdParty = true },
 			telemetry = { enable = false },
 		},
 	},
-
-	pylsp = {
-		pylsp = {
-			plugins = {
-				mccabe = {
-					enabled = false,
-				},
-				pydocstyle = {
-					enabled = false,
-				},
-				rope_autoimport = {
-					enabled=false,
-				},
-				flake8 = {
-					enabled=false,
-				},
-			}
-		}
-	}
 }
 
 -- Setup neovim lua configuration
