@@ -626,6 +626,24 @@ local servers = {
 			telemetry = { enable = false },
 		},
 	},
+	pylsp = {
+		pylsp = {
+			plugins = {
+				mccabe = {
+					enabled = false,
+				},
+				pydocstyle = {
+					enabled = false,
+				},
+				rope_autoimport = {
+					enabled=false,
+				},
+				flake8 = {
+					enabled=false,
+				},
+			}
+		}
+	}
 }
 
 -- Setup neovim lua configuration
