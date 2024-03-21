@@ -619,12 +619,30 @@ local servers = {
 			rangeVariableTypes = true
 		}
 	},
-	ruff_lsp = {},
+	ruff_lsp = {
+		init_options = {
+			settings = {
+				args = {}
+			}
+		}
+	},
 	lua_ls = {
 		Lua = {
 			workspace = { checkThirdParty = true },
 			telemetry = { enable = false },
 		},
+	},
+	pyright = {
+		settings = {
+			pyright = {
+				disableOrganizeImports = true,
+			},
+			python = {
+				analysis = {
+					ignore = { "*" },
+				}
+			}
+		}
 	},
 }
 
