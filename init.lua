@@ -673,18 +673,6 @@ mason_lspconfig.setup_handlers {
 	end,
 }
 
-vim.api.nvim_create_augroup("AutoFormat", {})
-vim.api.nvim_create_autocmd(
-	"BufWritePost",
-	{
-		pattern = "*.go",
-		group = "AutoFormat",
-		callback = function()
-			vim.lsp.buf.format()
-		end,
-	}
-)
-
 -- Turn on lsp status information
 require('fidget').setup({})
 
