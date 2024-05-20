@@ -8,6 +8,7 @@ if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
 end
 
 local Love = {}
+local Go = {}
 
 require('packer').startup(function(use)
 	-- Package manager
@@ -213,6 +214,7 @@ require('packer').startup(function(use)
 	use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', cond = vim.fn.executable 'make' == 1 }
 
 	use { "junegunn/vim-easy-align" }
+	use { "sedyh/ebitengine-kage-vim" }
 
 	-- Add custom plugins to packer from ~/.config/nvim/lua/custom/plugins.lua
 	local has_plugins, plugins = pcall(require, 'custom.plugins')
@@ -351,7 +353,7 @@ vim.filetype.add({
 			Love.SetLua2p()
 		end,
 		go = function()
-			map("n", "<space>rl", "<cmd>!go run .<CR>", opts)
+			Go.SetEbitengine()
 			return "go"
 		end,
 	}
@@ -766,4 +768,14 @@ function Love.SetLua2p()
 	vim.cmd [[syn match luaStatement "love.[a-z]*.[a-zA-Z]*"]]
 	-- vim.cmd([[set filetype=lua]])
 	Love.SetLove()
+end
+
+function Go.SetEbitengine()
+	if vim.loop.fs_stat("build.sh") then
+		map("n", "<space>rl", function()
+			vim.cmd("!sh build.sh run")
+		end, opts)
+	else
+		map("n", "<space>rl", "<cmd>!go run .<CR>", opts)
+	end
 end
