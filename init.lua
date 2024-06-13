@@ -356,6 +356,7 @@ vim.filetype.add({
 			Go.SetEbitengine()
 			return "go"
 		end,
+		templ = "templ",
 	}
 })
 
