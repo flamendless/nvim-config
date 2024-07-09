@@ -289,6 +289,7 @@ vim.o.wrap = true
 vim.o.list = true
 vim.opt.listchars:append "eol:↴"
 vim.opt.listchars:append "space:⋅"
+vim.opt.listchars:append "tab:⍿·"
 
 -- [[ Basic Keymaps ]]
 -- Set <space> as the leader key
