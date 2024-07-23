@@ -495,7 +495,7 @@ vim.keymap.set('n', '<leader>qn', function() require("qf").below("c") end, { des
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
 	-- Add languages to be installed here that you want installed for treesitter
-	ensure_installed = { 'lua', 'python', 'vim', 'go', },
+	ensure_installed = { 'lua', 'python', 'vim', 'go', 'proto', 'templ' },
 
 	highlight = { enable = true },
 	indent = { enable = true, disable = {} },
@@ -625,6 +625,7 @@ local servers = {
 			rangeVariableTypes = true
 		}
 	},
+	templ = {},
 	ruff_lsp = {
 		init_options = {
 			settings = {
