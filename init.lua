@@ -774,9 +774,9 @@ function Love.SetLua2p()
 end
 
 function Go.SetEbitengine()
-	if vim.loop.fs_stat("build.sh") then
+	if vim.loop.fs_stat("run.sh") then
 		map("n", "<space>rl", function()
-			vim.cmd("!sh build.sh run")
+			vim.cmd("!sh run.sh run")
 		end, opts)
 	else
 		map("n", "<space>rl", "<cmd>!go run .<CR>", opts)
