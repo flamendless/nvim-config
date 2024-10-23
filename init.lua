@@ -361,6 +361,11 @@ vim.filetype.add({
 	}
 })
 
+vim.api.nvim_create_autocmd({ 'BufEnter', 'BufNewFile' }, {
+	pattern = '*.kage',
+	command = 'set filetype=go',
+})
+
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
 -- local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
