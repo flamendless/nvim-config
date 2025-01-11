@@ -189,7 +189,20 @@ require('packer').startup(function(use)
 
 	use({
 		"stevearc/oil.nvim",
-		config = function() require("oil").setup() end
+		config = function()
+			require("oil").setup({
+				delete_to_trash = true,
+				keymaps = {
+					["g?"] = { "actions.show_help", mode = "n" },
+					["<CR>"] = { "actions.select", opts = { tab = true } },
+				},
+				view_options = {
+					show_hidden = true,
+					natural_order = "fast",
+					case_insensitive = false,
+				},
+			})
+		end
 	})
 
 	use({
@@ -631,13 +644,6 @@ local servers = {
 		}
 	},
 	templ = {},
-	ruff_lsp = {
-		init_options = {
-			settings = {
-				args = {}
-			}
-		}
-	},
 	lua_ls = {
 		Lua = {
 			workspace = { checkThirdParty = true },
