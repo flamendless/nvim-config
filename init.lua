@@ -223,7 +223,10 @@ require('packer').startup(function(use)
 	use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', cond = vim.fn.executable 'make' == 1 }
 
 	use { "junegunn/vim-easy-align" }
-	use { "sedyh/ebitengine-kage-vim" }
+
+	use { "akinsho/toggleterm.nvim", tag = '*', config = function()
+		require("toggleterm").setup()
+	end }
 
 	-- Add custom plugins to packer from ~/.config/nvim/lua/custom/plugins.lua
 	local has_plugins, plugins = pcall(require, 'custom.plugins')
@@ -789,3 +792,22 @@ function Go.SetEbitengine()
 		map("n", "<space>rl", "<cmd>!go run .<CR>", opts)
 	end
 end
+
+local trim_spaces = true
+vim.keymap.set("v", "<space>s", function()
+	require("toggleterm").send_lines_to_terminal("single_line", trim_spaces, { args = vim.v.count })
+end)
+
+function _G.set_terminal_keymaps()
+	local opts = { buffer = 0 }
+	vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)
+	vim.keymap.set('t', 'jk', [[<C-\><C-n>]], opts)
+	vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
+	vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], opts)
+	vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)
+	vim.keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], opts)
+	vim.keymap.set('t', '<C-w>', [[<C-\><C-n><C-w>]], opts)
+end
+
+-- if you only want these mappings for toggle term use term://*toggleterm#* instead
+vim.cmd('autocmd! TermOpen term://*toggleterm#* lua set_terminal_keymaps()')
