@@ -624,6 +624,12 @@ local on_attach = function(_, bufnr)
 		{ desc = 'Format current buffer with LSP' }
 	)
 	nmap("<leader>lf", ":Format<CR>", "")
+
+	vim.diagnostic.config({
+		virtual_text = true,
+		virtual_lines = true,
+		float = true,
+	})
 end
 
 -- Enable the following language servers
@@ -799,14 +805,14 @@ vim.keymap.set("v", "<space>s", function()
 end)
 
 function _G.set_terminal_keymaps()
-	local opts = { buffer = 0 }
-	vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)
-	vim.keymap.set('t', 'jk', [[<C-\><C-n>]], opts)
-	vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
-	vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], opts)
-	vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)
-	vim.keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], opts)
-	vim.keymap.set('t', '<C-w>', [[<C-\><C-n><C-w>]], opts)
+	local new_opts = { buffer = 0 }
+	vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], new_opts)
+	vim.keymap.set('t', 'jk', [[<C-\><C-n>]], new_opts)
+	vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], new_opts)
+	vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], new_opts)
+	vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], new_opts)
+	vim.keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], new_opts)
+	vim.keymap.set('t', '<C-w>', [[<C-\><C-n><C-w>]], new_opts)
 end
 
 -- if you only want these mappings for toggle term use term://*toggleterm#* instead
