@@ -627,8 +627,8 @@ local on_attach = function(_, bufnr)
 
 	vim.diagnostic.config({
 		virtual_text = true,
-		virtual_lines = true,
-		float = true,
+		virtual_lines = false,
+		float = false,
 	})
 end
 
