@@ -817,3 +817,6 @@ end
 
 -- if you only want these mappings for toggle term use term://*toggleterm#* instead
 vim.cmd('autocmd! TermOpen term://*toggleterm#* lua set_terminal_keymaps()')
+
+local ft = require("Comment.ft")
+ft.set("templ", ft.get("html"))
