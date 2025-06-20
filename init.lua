@@ -228,6 +228,12 @@ require('packer').startup(function(use)
 		require("toggleterm").setup()
 	end }
 
+	use 'mfussenegger/nvim-dap'
+	use 'leoluz/nvim-dap-go'
+	require('dap-go').setup()
+	use { "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } }
+	require("dapui").setup()
+
 	-- Add custom plugins to packer from ~/.config/nvim/lua/custom/plugins.lua
 	local has_plugins, plugins = pcall(require, 'custom.plugins')
 	if has_plugins then
@@ -630,6 +636,14 @@ local on_attach = function(_, bufnr)
 		virtual_lines = false,
 		float = false,
 	})
+
+	nmap("<leader>dd", ":DapNew<CR>", "")
+	nmap("<leader>db", ":lua require('dap').toggle_breakpoint()<CR>", "")
+	nmap("<leader>dc", ":lua require('dap').continue()<CR>", "")
+	nmap("<leader>ds", ":lua require'dap'.step_over()<CR>", "")
+	nmap("<leader>dq", ":lua require'dap'.terminate()<CR>", "")
+	nmap("<leader>dq", ":lua require'dap'.terminate()<CR>", "")
+	nmap("<leader>dt", ":lua require('dap-go').debug_test()<CR>", "")
 end
 
 -- Enable the following language servers
@@ -820,3 +834,18 @@ vim.cmd('autocmd! TermOpen term://*toggleterm#* lua set_terminal_keymaps()')
 
 local ft = require("Comment.ft")
 ft.set("templ", ft.get("html"))
+
+local dap, dapui = require("dap"), require("dapui")
+dap.set_log_level("TRACE")
+dap.listeners.before.attach.dapui_config = function()
+	dapui.open()
+end
+dap.listeners.before.launch.dapui_config = function()
+	dapui.open()
+end
+dap.listeners.before.event_terminated.dapui_config = function()
+	dapui.close()
+end
+dap.listeners.before.event_exited.dapui_config = function()
+	dapui.close()
+end
