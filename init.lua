@@ -56,6 +56,22 @@ require("packer").startup(function(use)
 	use "m4xshen/autoclose.nvim"
 	require("autoclose").setup({})
 
+	use({
+		"hedyhli/outline.nvim",
+		config = function()
+			vim.keymap.set("n", "<leader>a", "<cmd>Outline<CR>", { desc = "Toggle Outline" })
+
+			require("outline").setup({
+				symbol_folding = {
+					autofold_depth = 1,
+					auto_unfold = {
+						hovered = true,
+					},
+				},
+			})
+		end,
+	})
+
 	use "yamatsum/nvim-cursorline"
 	require("nvim-cursorline").setup {
 		cursorline = {
@@ -253,7 +269,6 @@ vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 -- Remap for dealing with word wrap
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
-
 
 local opts = { noremap = true, silent = true }
 local map = vim.keymap.set
