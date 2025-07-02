@@ -42,10 +42,10 @@ require("packer").startup(function(use)
 	}
 
 	use "lewis6991/gitsigns.nvim"
-	use "nvim-lualine/lualine.nvim" -- Fancier statusline
+	use "nvim-lualine/lualine.nvim"        -- Fancier statusline
 	use "lukas-reineke/indent-blankline.nvim" -- Add indentation guides even on blank lines
-	use "numToStr/Comment.nvim" -- "gc" to comment visual regions/lines
-	use "tpope/vim-sleuth" -- Detect tabstop and shiftwidth automatically
+	use "numToStr/Comment.nvim"            -- "gc" to comment visual regions/lines
+	use "tpope/vim-sleuth"                 -- Detect tabstop and shiftwidth automatically
 	use "gpanders/editorconfig.nvim"
 	use "f-person/git-blame.nvim"
 	use "backdround/neowords.nvim" -- allow camelCase and snake_case movement
@@ -154,6 +154,7 @@ require("packer").startup(function(use)
 
 	-- Fuzzy Finder (files, lsp, etc)
 	use { "nvim-telescope/telescope.nvim", branch = "0.1.x", requires = { "nvim-lua/plenary.nvim" } }
+	use { "nvim-telescope/telescope-media-files.nvim" }
 
 	-- Fuzzy Finder Algorithm which requires local dependencies to be built. Only load if `make` is available
 	use { "nvim-telescope/telescope-fzf-native.nvim", run = "make", cond = vim.fn.executable "make" == 1 }
@@ -394,10 +395,17 @@ require("telescope").setup {
 			},
 		},
 	},
+	extensions = {
+		media_files = {
+			filetypes = { "png", "webp", "jpg", "jpeg" },
+			find_cmd = "rg",
+		},
+	},
 }
 
 -- Enable telescope fzf native, if installed
 pcall(require("telescope").load_extension, "fzf")
+require("telescope").load_extension("media_files")
 
 -- See `:help telescope.builtin`
 vim.keymap.set("n", "<leader>fo", require("telescope.builtin").oldfiles, { desc = "[?] Find recently opened files" })
@@ -647,10 +655,10 @@ function Love.RunAndCheckLua(ext, mode)
 	if ext == "py" then
 		vim.cmd("!python3 build.py -b -r " .. (mode or ""))
 	else
-		local a = vim.fn.expand("%:p:h:t")
-		local b = vim.fn.expand("%:t:r")
-		local filename = string.format("%s/%s.lua", a, b)
-		vim.cmd("!sh build.sh run && sh build.sh check vim " .. filename)
+		-- local a = vim.fn.expand("%:p:h:t")
+		-- local b = vim.fn.expand("%:t:r")
+		-- local filename = string.format("%s/%s.lua", a, b)
+		vim.cmd("!sh build.sh run")
 	end
 end
 
