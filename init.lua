@@ -124,18 +124,14 @@ require("packer").startup(function(use)
 		config = function() require("qf").setup({}) end
 	})
 
-	use({
-		"stevearc/oil.nvim",
-		config = function()
-			require("oil").setup({
-				delete_to_trash = true,
-				view_options = {
-					show_hidden = true,
-					natural_order = "fast",
-					case_insensitive = false,
-				},
-			})
-		end
+	use({ "stevearc/oil.nvim" })
+	require("oil").setup({
+		delete_to_trash = true,
+		view_options = {
+			show_hidden = true,
+			natural_order = "fast",
+			case_insensitive = false,
+		},
 	})
 
 	use({
