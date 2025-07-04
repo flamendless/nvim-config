@@ -108,6 +108,17 @@ require("packer").startup(function(use)
 		end
 	}
 
+	use({
+		"Bekaboo/dropbar.nvim",
+		requires = {
+			"nvim-telescope/telescope-fzf-native.nvim",
+			run = "make"
+		},
+		config = function()
+			-- local dropbar_api = require("dropbar.api")
+		end
+	})
+
 	use "tikhomirov/vim-glsl"
 
 	use {
