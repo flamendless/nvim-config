@@ -161,6 +161,11 @@ require("packer").startup(function(use)
 		},
 	})
 
+	use { "kosayoda/nvim-lightbulb" }
+	require("nvim-lightbulb").setup({
+		autocmd = { enabled = true }
+	})
+
 	use({
 		"hinell/lsp-timeout.nvim",
 		requires = { "neovim/nvim-lspconfig" },
