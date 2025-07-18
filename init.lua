@@ -7,9 +7,6 @@ if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
 	vim.cmd [[packadd packer.nvim]]
 end
 
-local Love = {}
-local Go = {}
-
 require("packer").startup(function(use)
 	-- Package manager
 	use "wbthomason/packer.nvim"
@@ -17,8 +14,8 @@ require("packer").startup(function(use)
 	use { -- LSP Configuration & Plugins
 		"neovim/nvim-lspconfig",
 		requires = {
-			"williamboman/mason.nvim",
-			"williamboman/mason-lspconfig.nvim",
+			"mason-org/mason.nvim",
+			"mason-org/mason-lspconfig.nvim",
 			"j-hui/fidget.nvim",
 			"folke/neodev.nvim",
 		},
@@ -323,17 +320,6 @@ vim.keymap.set({ "n", "x", "o" }, "ge", hops.backward_end)
 
 vim.filetype.add({
 	extension = {
-		lua = function()
-			Love.SetLove()
-			return "lua"
-		end,
-		lua2p = function()
-			Love.SetLua2p()
-		end,
-		go = function()
-			Go.SetEbitengine()
-			return "go"
-		end,
 		templ = "templ",
 	}
 })
@@ -611,24 +597,11 @@ require("neodev").setup()
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
--- Setup mason so it can manage external tooling
 require("mason").setup()
-
--- Ensure the servers above are installed
 local mason_lspconfig = require "mason-lspconfig"
-
 mason_lspconfig.setup {
 	ensure_installed = vim.tbl_keys(servers),
-}
-
-mason_lspconfig.setup_handlers {
-	function(server_name)
-		require("lspconfig")[server_name].setup {
-			capabilities = capabilities,
-			on_attach = on_attach,
-			settings = servers[server_name],
-		}
-	end,
+	automatic_enable = true,
 }
 
 -- Turn on lsp status information
@@ -676,63 +649,6 @@ cmp.setup {
 		{ name = "luasnip" },
 	},
 }
-
-function Love.RunAndCheckLua(ext, mode)
-	if ext == "py" then
-		vim.cmd("!python3 build.py -b -r " .. (mode or ""))
-	else
-		-- local a = vim.fn.expand("%:p:h:t")
-		-- local b = vim.fn.expand("%:t:r")
-		-- local filename = string.format("%s/%s.lua", a, b)
-		vim.cmd("!sh build.sh run")
-	end
-end
-
-function Love.SetLove()
-	if vim.loop.fs_stat("build.sh") then
-		map("n", "<space>rl", function() Love.RunAndCheckLua() end, opts)
-		map("n", "<space>rp", "<cmd>!sh build.sh profile<CR>", opts)
-	elseif vim.loop.fs_stat("build.py") then
-		map("n", "<space>rl", function() Love.RunAndCheckLua("py", "-d") end, opts)
-		map("n", "<space>rp", function() Love.RunAndCheckLua("py", "-p") end, opts)
-		map("n", "<space>rb", function() Love.RunAndCheckLua("py", "-d -p") end, opts)
-	else
-		map("n", "<space>rl", "<cmd>!love . &&<CR>", opts)
-	end
-end
-
-function Love.SetLua2p()
-	-- vim.bo.syntax = "lua"
-	vim.cmd [[set syntax=lua]]
-	vim.bo.commentstring = "--%s"
-	vim.cmd [[syn match luaFunc "self"]]
-	vim.cmd [[syn match luaOperator "\:"]]
-	vim.cmd [[syn match luaOperator "\."]]
-	vim.cmd [[syn match luaOperator "\["]]
-	vim.cmd [[syn match luaOperator "\]"]]
-	vim.cmd [[syn match luaOperator "("]]
-	vim.cmd [[syn match luaOperator ")"]]
-	vim.cmd [[syn match luaOperator ","]]
-	vim.cmd [[syn match luaOperator "+"]]
-	vim.cmd [[syn match luaOperator "-"]]
-	vim.cmd [[syn match luaOperator "="]]
-	vim.cmd [[syn match luaConstant "\$\<\w*\>"]]
-	vim.cmd [[syn match luaComment "!"]]
-	vim.cmd [[syn match luaComment "@"]]
-	vim.cmd [[syn match luaStatement "love.[a-z]*.[a-zA-Z]*"]]
-	-- vim.cmd([[set filetype=lua]])
-	Love.SetLove()
-end
-
-function Go.SetEbitengine()
-	if vim.loop.fs_stat("run.sh") then
-		map("n", "<space>rl", function()
-			vim.cmd("!sh run.sh run")
-		end, opts)
-	else
-		map("n", "<space>rl", "<cmd>!go run .<CR>", opts)
-	end
-end
 
 local trim_spaces = true
 vim.keymap.set("v", "<space>s", function()
