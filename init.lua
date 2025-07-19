@@ -298,6 +298,7 @@ map("n", "<C-p>", function() require("telescope.builtin").find_files() end, { de
 map("n", "<space>gg", "<cmd>lua require(\'telescope.builtin\').grep_string({search = vim.fn.expand('<cword>')})<cr>", {})
 map("n", "<space>gr", "<cmd>lua require(\'telescope.builtin\').resume()<cr>", {})
 map("n", "<C-a>", "ggVG", opts)
+map("v", "<leader>y", "\"*y", opts)
 
 
 local neowords = require("neowords")
