@@ -48,6 +48,7 @@ require("packer").startup(function(use)
 	use "backdround/neowords.nvim" -- allow camelCase and snake_case movement
 	use "jdhao/whitespace.nvim"
 	use "luisiacc/gruvbox-baby"
+	use "p00f/alabaster.nvim"
 	use "norcalli/nvim-colorizer.lua"
 
 	use "m4xshen/autoclose.nvim"
@@ -252,7 +253,8 @@ vim.wo.signcolumn = "yes"
 
 -- Set colorscheme
 vim.o.termguicolors = true
-vim.cmd [[colorscheme gruvbox-baby]]
+-- vim.cmd [[colorscheme gruvbox-baby]]
+vim.cmd [[colorscheme alabaster]]
 require("colorizer").setup()
 
 -- Set completeopt to have a better completion experience
