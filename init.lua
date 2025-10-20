@@ -614,6 +614,7 @@ for server_name, _ in pairs(servers) do
 		capabilities = capabilities,
 		on_attach = on_attach,
 	})
+	vim.lsp.enable(server_name)
 end
 
 -- Setup neovim lua configuration
