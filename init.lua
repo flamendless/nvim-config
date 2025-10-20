@@ -610,7 +610,7 @@ mason_lspconfig.setup {
 }
 
 for server_name, _ in pairs(servers) do
-	require("lspconfig")[server_name].setup({
+	vim.lsp.config(server_name, {
 		capabilities = capabilities,
 		on_attach = on_attach,
 	})
