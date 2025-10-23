@@ -253,8 +253,8 @@ vim.wo.signcolumn = "yes"
 
 -- Set colorscheme
 vim.o.termguicolors = true
--- vim.cmd [[colorscheme gruvbox-baby]]
-vim.cmd [[colorscheme alabaster]]
+vim.cmd [[colorscheme gruvbox-baby]]
+-- vim.cmd [[colorscheme alabaster]]
 require("colorizer").setup()
 
 -- Set completeopt to have a better completion experience
