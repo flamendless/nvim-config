@@ -7,6 +7,8 @@ if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
 	vim.cmd [[packadd packer.nvim]]
 end
 
+local Love = {}
+
 require("packer").startup(function(use)
 	-- Package manager
 	use "wbthomason/packer.nvim"
@@ -324,6 +326,7 @@ vim.keymap.set({ "n", "x", "o" }, "ge", hops.backward_end)
 vim.filetype.add({
 	extension = {
 		templ = "templ",
+		lua2p = function() Love.SetLua2p() end,
 	}
 })
 
@@ -687,4 +690,26 @@ dap.listeners.before.event_terminated.dapui_config = function()
 end
 dap.listeners.before.event_exited.dapui_config = function()
 	dapui.close()
+end
+
+function Love.SetLua2p()
+	-- vim.bo.syntax = "lua"
+	vim.cmd [[set syntax=lua]]
+	vim.bo.commentstring = "--%s"
+	vim.cmd [[syn match luaFunc "self"]]
+	vim.cmd [[syn match luaOperator "\:"]]
+	vim.cmd [[syn match luaOperator "\."]]
+	vim.cmd [[syn match luaOperator "\["]]
+	vim.cmd [[syn match luaOperator "\]"]]
+	vim.cmd [[syn match luaOperator "("]]
+	vim.cmd [[syn match luaOperator ")"]]
+	vim.cmd [[syn match luaOperator ","]]
+	vim.cmd [[syn match luaOperator "+"]]
+	vim.cmd [[syn match luaOperator "-"]]
+	vim.cmd [[syn match luaOperator "="]]
+	vim.cmd [[syn match luaConstant "\$\<\w*\>"]]
+	vim.cmd [[syn match luaComment "!"]]
+	vim.cmd [[syn match luaComment "@"]]
+	vim.cmd [[syn match luaStatement "love.[a-z]*.[a-zA-Z]*"]]
+	-- vim.cmd([[set filetype=lua]])
 end
