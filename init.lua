@@ -451,7 +451,7 @@ vim.keymap.set("n", "<leader>qn", function() require("qf").below("c") end, { des
 -- See `:help nvim-treesitter`
 require("nvim-treesitter.configs").setup {
 	-- Add languages to be installed here that you want installed for treesitter
-	ensure_installed = { "lua", "python", "vim", "go", "proto", "templ" },
+	ensure_installed = { "lua", "python", "vim", "go", "proto", "templ", "typescript", "tsx", "javascript", "jsdoc" },
 
 	highlight = { enable = true },
 	indent = { enable = true, disable = {} },
@@ -594,6 +594,33 @@ local servers = {
 			}
 		}
 	},
+	ts_ls = {
+		settings = {
+			typescript = {
+				inlayHints = {
+					includeInlayParameterNameHints = "all",
+					includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+					includeInlayFunctionParameterTypeHints = true,
+					includeInlayVariableTypeHints = true,
+					includeInlayPropertyDeclarationTypeHints = true,
+					includeInlayFunctionLikeReturnTypeHints = true,
+					includeInlayEnumMemberValueHints = true,
+				},
+			},
+			javascript = {
+				inlayHints = {
+					includeInlayParameterNameHints = "all",
+					includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+					includeInlayFunctionParameterTypeHints = true,
+					includeInlayVariableTypeHints = true,
+					includeInlayPropertyDeclarationTypeHints = true,
+					includeInlayFunctionLikeReturnTypeHints = true,
+					includeInlayEnumMemberValueHints = true,
+				},
+			},
+		},
+	},
+	eslint = {},
 }
 
 vim.lsp.config("*", {
@@ -612,10 +639,11 @@ mason_lspconfig.setup {
 	automatic_enable = false,
 }
 
-for server_name, _ in pairs(servers) do
+for server_name, server_config in pairs(servers) do
 	vim.lsp.config(server_name, {
 		capabilities = capabilities,
 		on_attach = on_attach,
+		settings = server_config.settings,
 	})
 	vim.lsp.enable(server_name)
 end
