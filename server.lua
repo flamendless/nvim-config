@@ -61,21 +61,6 @@ require("packer").startup(function(use)
 		},
 	})
 
-	use({
-		"hinell/lsp-timeout.nvim",
-		requires = { "neovim/nvim-lspconfig" },
-		setup = function()
-			vim.g["lspTimeoutConfig"] = {
-				stopTimeout = 1000 * 60 * 5,
-				startTimeout = 1000 * 10,
-				silent = false,
-				filetypes = {
-					ignore = { "lua" },
-				}
-			}
-		end
-	})
-
 	-- Fuzzy Finder (files, lsp, etc)
 	use { "nvim-telescope/telescope.nvim", branch = "0.1.x", requires = { "nvim-lua/plenary.nvim" } }
 
@@ -110,7 +95,7 @@ end
 -- Automatically source and re-compile packer whenever you save this init.lua
 local packer_group = vim.api.nvim_create_augroup("Packer", { clear = true })
 vim.api.nvim_create_autocmd("BufWritePost", {
-	command = "source <afile> | silent! LspStop | silent! LspStart | PackerCompile",
+	command = "source <afile> | silent! LspStop | silent! | PackerCompile",
 	group = packer_group,
 	pattern = vim.fn.expand "$MYVIMRC",
 })
