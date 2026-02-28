@@ -37,20 +37,6 @@ require("packer").startup(function(use)
 	use "luisiacc/gruvbox-baby"
 	use "norcalli/nvim-colorizer.lua"
 
-	use "yamatsum/nvim-cursorline"
-	require("nvim-cursorline").setup {
-		cursorline = {
-			enable = false,
-			timeout = 1000,
-			number = false,
-		},
-		cursorword = {
-			enable = true,
-			min_length = 3,
-			hl = { underline = true },
-		}
-	}
-
 	use { "romgrk/barbar.nvim", wants = "nvim-web-devicons" }
 	require("bufferline").setup({
 		animation = false,
