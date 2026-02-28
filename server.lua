@@ -37,8 +37,6 @@ require("packer").startup(function(use)
 	use "luisiacc/gruvbox-baby"
 	use "norcalli/nvim-colorizer.lua"
 
-	use { "romgrk/barbar.nvim", wants = "nvim-web-devicons" }
-
 	use {
 		"m-demare/hlargs.nvim",
 		requires = { "nvim-treesitter/nvim-treesitter" }
