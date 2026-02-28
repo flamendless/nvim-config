@@ -43,14 +43,6 @@ require("packer").startup(function(use)
 	}
 	require("hlargs").setup()
 
-	use {
-		"folke/todo-comments.nvim",
-		requires = "nvim-lua/plenary.nvim",
-		config = function()
-			require("todo-comments").setup()
-		end
-	}
-
 	use({ "stevearc/oil.nvim" })
 	require("oil").setup({
 		delete_to_trash = true,
