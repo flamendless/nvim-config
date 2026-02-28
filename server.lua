@@ -38,11 +38,6 @@ require("packer").startup(function(use)
 	use "norcalli/nvim-colorizer.lua"
 
 	use { "romgrk/barbar.nvim", wants = "nvim-web-devicons" }
-	require("bufferline").setup({
-		animation = false,
-		tabpages = false,
-		clickable = false,
-	})
 
 	use {
 		"m-demare/hlargs.nvim",
