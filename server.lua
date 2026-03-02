@@ -85,6 +85,26 @@ vim.o.smartcase = true
 vim.o.updatetime = 200
 vim.wo.signcolumn = "yes"
 
+-- Use system clipboard for yank/paste (macOS, Linux, WSL)
+vim.opt.clipboard = "unnamedplus"
+if vim.fn.has("wsl") == 1 then
+	local win32yank = vim.fn.exepath("win32yank.exe")
+	if win32yank and win32yank ~= "" then
+		vim.g.clipboard = {
+			name = "win32yank-wsl",
+			copy = {
+				["+"] = win32yank .. " -i --crlf",
+				["*"] = win32yank .. " -i --crlf",
+			},
+			paste = {
+				["+"] = win32yank .. " -o --crlf",
+				["*"] = win32yank .. " -o --crlf",
+			},
+			cache_enabled = true,
+		}
+	end
+end
+
 vim.o.termguicolors = true
 vim.cmd [[colorscheme gruvbox-baby]]
 require("colorizer").setup()

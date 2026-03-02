@@ -6,6 +6,9 @@ return {
 			"nvim-telescope/telescope.nvim",
 			"sindrets/diffview.nvim",
 		},
+		keys = {
+			{ "<leader>t", "<cmd>lua require('neogit').open()<cr>", desc = "Open Neogit" },
+		},
 		config = function()
 			require("neogit").setup({})
 		end,
