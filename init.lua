@@ -1,231 +1,27 @@
--- Install packer
-local install_path = vim.fn.stdpath "data" .. "/site/pack/packer/start/packer.nvim"
-local is_bootstrap = false
-if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-	is_bootstrap = true
-	vim.fn.system { "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path }
-	vim.cmd [[packadd packer.nvim]]
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+	vim.fn.system({
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"https://github.com/folke/lazy.nvim.git",
+		"--branch=stable",
+		lazypath,
+	})
 end
+vim.opt.rtp:prepend(lazypath)
 
 local Love = {}
 
-require("packer").startup(function(use)
-	-- Package manager
-	use "wbthomason/packer.nvim"
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
 
-	use { -- LSP Configuration & Plugins
-		"neovim/nvim-lspconfig",
-		requires = {
-			"mason-org/mason.nvim",
-			"mason-org/mason-lspconfig.nvim",
-			"j-hui/fidget.nvim",
-			"folke/neodev.nvim",
-		},
-	}
-
-	use {
-		"hrsh7th/nvim-cmp",
-		requires = { "hrsh7th/cmp-nvim-lsp", "L3MON4D3/LuaSnip", "saadparwaiz1/cmp_luasnip" },
-	}
-
-	use {
-		"nvim-treesitter/nvim-treesitter",
-		run = function()
-			pcall(require("nvim-treesitter.install").update { with_sync = true })
-		end,
-	}
-
-	use {
-		"nvim-treesitter/nvim-treesitter-textobjects",
-		after = "nvim-treesitter",
-	}
-
-	use "lewis6991/gitsigns.nvim"
-	use "nvim-lualine/lualine.nvim"        -- Fancier statusline
-	use "lukas-reineke/indent-blankline.nvim" -- Add indentation guides even on blank lines
-	use "numToStr/Comment.nvim"            -- "gc" to comment visual regions/lines
-	use "tpope/vim-sleuth"                 -- Detect tabstop and shiftwidth automatically
-	use "gpanders/editorconfig.nvim"
-	use "f-person/git-blame.nvim"
-	use "backdround/neowords.nvim" -- allow camelCase and snake_case movement
-	use "jdhao/whitespace.nvim"
-	use "luisiacc/gruvbox-baby"
-	use "p00f/alabaster.nvim"
-	use "norcalli/nvim-colorizer.lua"
-
-	use "m4xshen/autoclose.nvim"
-	require("autoclose").setup({})
-
-	use({
-		"hedyhli/outline.nvim",
-		config = function()
-			vim.keymap.set("n", "<leader>a", "<cmd>Outline<CR>", { desc = "Toggle Outline" })
-
-			require("outline").setup({
-				symbol_folding = {
-					autofold_depth = 1,
-					auto_unfold = {
-						hovered = true,
-					},
-				},
-			})
-		end,
-	})
-
-	use "yamatsum/nvim-cursorline"
-	require("nvim-cursorline").setup {
-		cursorline = {
-			enable = false,
-			timeout = 1000,
-			number = false,
-		},
-		cursorword = {
-			enable = true,
-			min_length = 3,
-			hl = { underline = true },
-		}
-	}
-
-	use "nvim-tree/nvim-web-devicons"
-	use { "romgrk/barbar.nvim", wants = "nvim-web-devicons" }
-	require("bufferline").setup({
-		animation = false,
-		tabpages = false,
-		clickable = false,
-	})
-
-	use {
-		"m-demare/hlargs.nvim",
-		requires = { "nvim-treesitter/nvim-treesitter" }
-	}
-	require("hlargs").setup()
-
-	use {
-		"folke/todo-comments.nvim",
-		requires = "nvim-lua/plenary.nvim",
-		config = function()
-			require("todo-comments").setup()
-		end
-	}
-
-	use({
-		"Bekaboo/dropbar.nvim",
-		requires = {
-			"nvim-telescope/telescope-fzf-native.nvim",
-			run = "make"
-		},
-		config = function()
-			-- local dropbar_api = require("dropbar.api")
-		end
-	})
-
-	use "tikhomirov/vim-glsl"
-
-	use {
-		"folke/trouble.nvim",
-		requires = "nvim-tree/nvim-web-devicons",
-	}
-
-	use({
-		"Wansmer/treesj",
-		requires = { "nvim-treesitter" },
-		config = function()
-			require("treesj").setup({})
-		end,
-	})
-
-	use({
-		"NeogitOrg/neogit",
-		requires = {
-			"nvim-lua/plenary.nvim",
-			"nvim-telescope/telescope.nvim",
-			"sindrets/diffview.nvim",
-		},
-		config = function()
-			require("neogit").setup({})
-		end,
-	})
-
-	use({
-		"ten3roberts/qf.nvim",
-		config = function() require("qf").setup({}) end
-	})
-
-	use({ "stevearc/oil.nvim" })
-	require("oil").setup({
-		delete_to_trash = true,
-		view_options = {
-			show_hidden = true,
-			natural_order = "fast",
-			case_insensitive = false,
-		},
-	})
-
-	use { "kosayoda/nvim-lightbulb" }
-	require("nvim-lightbulb").setup({
-		autocmd = { enabled = true }
-	})
-
-	use({
-		"hinell/lsp-timeout.nvim",
-		requires = { "neovim/nvim-lspconfig" },
-		setup = function()
-			vim.g["lspTimeoutConfig"] = {
-				stopTimeout = 1000 * 60 * 5,
-				startTimeout = 1000 * 10,
-				silent = false,
-				filetypes = {
-					ignore = { "lua" },
-				}
-			}
-		end
-	})
-
-	-- Fuzzy Finder (files, lsp, etc)
-	use { "nvim-telescope/telescope.nvim", branch = "0.1.x", requires = { "nvim-lua/plenary.nvim" } }
-	use { "nvim-telescope/telescope-media-files.nvim" }
-
-	-- Fuzzy Finder Algorithm which requires local dependencies to be built. Only load if `make` is available
-	use { "nvim-telescope/telescope-fzf-native.nvim", run = "make", cond = vim.fn.executable "make" == 1 }
-
-
-	use "mfussenegger/nvim-dap"
-	use "leoluz/nvim-dap-go"
-	require("dap-go").setup()
-	use { "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } }
-	require("dapui").setup()
-
-	-- Add custom plugins to packer from ~/.config/nvim/lua/custom/plugins.lua
-	local has_plugins, plugins = pcall(require, "custom.plugins")
-	if has_plugins then
-		plugins(use)
-	end
-
-	if is_bootstrap then
-		require("packer").sync()
-	end
-end)
-
--- When we are bootstrapping a configuration, it doesn't
--- make sense to execute the rest of the init.lua.
---
--- You'll need to restart nvim, and then it will work.
-if is_bootstrap then
-	print "=================================="
-	print "	 Plugins are being installed"
-	print "	 Wait until Packer completes,"
-	print "		then restart nvim"
-	print "=================================="
-	return
+-- Shim deprecated vim.tbl_islist so plugins using it don't warn (use vim.islist)
+if vim.islist then
+	vim.tbl_islist = vim.islist
 end
 
--- Automatically source and re-compile packer whenever you save this init.lua
-local packer_group = vim.api.nvim_create_augroup("Packer", { clear = true })
-vim.api.nvim_create_autocmd("BufWritePost", {
-	command = "source <afile> | silent! LspStop | silent! LspStart | PackerCompile",
-	group = packer_group,
-	pattern = vim.fn.expand "$MYVIMRC",
-})
+require("lazy").setup("plugins")
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
@@ -257,7 +53,10 @@ vim.wo.signcolumn = "yes"
 vim.o.termguicolors = true
 vim.cmd [[colorscheme gruvbox-baby]]
 -- vim.cmd [[colorscheme alabaster]]
-require("colorizer").setup()
+
+-- Defer plugin-dependent setup so Lazy has loaded plugins first
+vim.schedule(function()
+	require("colorizer").setup()
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = "menuone,noselect"
@@ -273,11 +72,7 @@ vim.opt.listchars:append "space:⋅"
 vim.opt.listchars:append "tab:⍿·"
 
 -- [[ Basic Keymaps ]]
--- Set <space> as the leader key
--- See `:help mapleader`
---	NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
+-- See `:help mapleader` (leader is set above, before Lazy loads)
 
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
@@ -447,57 +242,80 @@ vim.keymap.set("n", "<leader>qt", function() require("qf").toggle("c", true) end
 vim.keymap.set("n", "<leader>qb", function() require("qf").above("c") end, { desc = "" })
 vim.keymap.set("n", "<leader>qn", function() require("qf").below("c") end, { desc = "" })
 
--- [[ Configure Treesitter ]]
--- See `:help nvim-treesitter`
-require("nvim-treesitter.configs").setup {
-	-- Add languages to be installed here that you want installed for treesitter
-	ensure_installed = { "lua", "python", "vim", "go", "proto", "templ", "typescript", "tsx", "javascript", "jsdoc" },
-
-	highlight = { enable = true },
-	indent = { enable = true, disable = {} },
-	incremental_selection = {
-		enable = false,
-		keymaps = {
-		},
-	},
-	textobjects = {
-		select = {
-			enable = false,
-			lookahead = false, -- Automatically jump forward to textobj, similar to targets.vim
-			keymaps = {
+-- [[ Configure Treesitter ]] (deferred so Lazy can load the plugin first)
+require("lazy").load({ plugins = { "nvim-treesitter" } })
+vim.defer_fn(function()
+	local ok, configs = pcall(require, "nvim-treesitter.configs")
+	if ok and configs then
+		configs.setup {
+			-- Parsers in this list are auto-installed when missing (run :TSInstall to install manually)
+			ensure_installed = {
+				"lua",
+				"python",
+				"vim",
+				"go",
+				"proto",
+				"templ",
+				"typescript",
+				"tsx",
+				"javascript",
+				"jsdoc",
+				"html",
+				"css",
+				"json",
+				"jsonc",
+				"bash",
+				"markdown",
+				"markdown_inline",
+				"regex",
+				"yaml",
+				"toml",
 			},
-		},
-		move = {
-			enable = false,
-			set_jumps = false, -- whether to set jumps in the jumplist
-			goto_next_start = {
-				["]m"] = "@function.outer",
-				["]]"] = "@class.outer",
+			highlight = { enable = true },
+			indent = { enable = true, disable = {} },
+			incremental_selection = {
+				enable = false,
+				keymaps = {},
 			},
-			goto_next_end = {
-				["]M"] = "@function.outer",
-				["]["] = "@class.outer",
+			textobjects = {
+				select = {
+					enable = false,
+					lookahead = false,
+					keymaps = {},
+				},
+				move = {
+					enable = false,
+					set_jumps = false,
+					goto_next_start = {
+						["]m"] = "@function.outer",
+						["]]"] = "@class.outer",
+					},
+					goto_next_end = {
+						["]M"] = "@function.outer",
+						["]["] = "@class.outer",
+					},
+					goto_previous_start = {
+						["[m"] = "@function.outer",
+						["[["] = "@class.outer",
+					},
+					goto_previous_end = {
+						["[M"] = "@function.outer",
+						["[]"] = "@class.outer",
+					},
+				},
+				swap = {
+					enable = false,
+					swap_next = {
+						["<leader>a"] = "@parameter.inner",
+					},
+					swap_previous = {
+						["<leader>A"] = "@parameter.inner",
+					},
+				},
 			},
-			goto_previous_start = {
-				["[m"] = "@function.outer",
-				["[["] = "@class.outer",
-			},
-			goto_previous_end = {
-				["[M"] = "@function.outer",
-				["[]"] = "@class.outer",
-			},
-		},
-		swap = {
-			enable = false,
-			swap_next = {
-				["<leader>a"] = "@parameter.inner",
-			},
-			swap_previous = {
-				["<leader>A"] = "@parameter.inner",
-			},
-		},
-	},
-}
+		}
+	end
+end, 100)
 
 -- LSP settings.
 --	This function gets run when an LSP connects to a particular buffer.
@@ -549,14 +367,6 @@ local on_attach = function(_, bufnr)
 		virtual_lines = false,
 		float = false,
 	})
-
-	nmap("<leader>dd", ":DapNew<CR>", "")
-	nmap("<leader>db", ":lua require('dap').toggle_breakpoint()<CR>", "")
-	nmap("<leader>dc", ":lua require('dap').continue()<CR>", "")
-	nmap("<leader>ds", ":lua require'dap'.step_over()<CR>", "")
-	nmap("<leader>dq", ":lua require'dap'.terminate()<CR>", "")
-	nmap("<leader>dq", ":lua require'dap'.terminate()<CR>", "")
-	nmap("<leader>dt", ":lua require('dap-go').debug_test()<CR>", "")
 end
 
 -- Enable the following language servers
@@ -628,14 +438,15 @@ local servers = {
 	eslint = {},
 }
 
-vim.lsp.config("*", {
-	on_attach = on_attach,
-	capabilities = capabilities,
-})
 --
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+
+vim.lsp.config("*", {
+	on_attach = on_attach,
+	capabilities = capabilities,
+})
 
 require("mason").setup()
 local mason_lspconfig = require "mason-lspconfig"
@@ -702,28 +513,8 @@ cmp.setup {
 	},
 }
 
-local trim_spaces = true
-vim.keymap.set("v", "<space>s", function()
-	require("toggleterm").send_lines_to_terminal("single_line", trim_spaces, { args = vim.v.count })
-end)
-
 local ft = require("Comment.ft")
 ft.set("templ", ft.get("html"))
-
-local dap, dapui = require("dap"), require("dapui")
-dap.set_log_level("TRACE")
-dap.listeners.before.attach.dapui_config = function()
-	dapui.open()
-end
-dap.listeners.before.launch.dapui_config = function()
-	dapui.open()
-end
-dap.listeners.before.event_terminated.dapui_config = function()
-	dapui.close()
-end
-dap.listeners.before.event_exited.dapui_config = function()
-	dapui.close()
-end
 
 function Love.SetLua2p()
 	-- vim.bo.syntax = "lua"
@@ -746,3 +537,4 @@ function Love.SetLua2p()
 	vim.cmd [[syn match luaStatement "love.[a-z]*.[a-zA-Z]*"]]
 	-- vim.cmd([[set filetype=lua]])
 end
+end)

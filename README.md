@@ -15,8 +15,16 @@ This repo is meant to be used as a starting point for a user's own configuration
 
 * Backup your previous configuration
 * Copy and paste the kickstart.nvim `init.lua` into `$HOME/.config/nvim/init.lua` (Linux) or `~/AppData/Local/nvim/init.lua` (Windows)
-* Start Neovim (`nvim`) and run `:PackerInstall` - ignore any error message about missing plugins, `:PackerInstall` will fix that shortly
+* Start Neovim (`nvim`) and run `:Lazy` to install plugins
 * Restart Neovim
+
+**nvim-treesitter:** To install language parsers (`:TSInstall`), the tree-sitter CLI is required. Install it once:
+
+- **macOS (Homebrew):** `brew install tree-sitter-cli`
+- **npm:** `npm install -g tree-sitter-cli`
+- **Cargo:** `cargo install --locked tree-sitter-cli`
+
+Then run `:TSInstall` for the languages you want, or let the config install them on first use.
 
 
 If there are languages that you don't want to use, remove their configuration and notes from your `init.lua` after copy and pasting (for example, in the mason configuration).
@@ -31,30 +39,33 @@ This requires:
 
 - Install CMake, and the Microsoft C++ Build Tools on Windows
 
+For Lazy.nvim, use `build` instead of `run` in the plugin spec:
+
 ```lua
-use {'nvim-telescope/telescope-fzf-native.nvim', run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
+{'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
 ```
 
 ### Configuration
 
 You could directly modify the `init.lua` file with your personal customizations. This option is the most straightforward, but if you update your config from this repo, you may need to reapply your changes.
 
-An alternative approach is to create a separate `custom.plugins` module to register your own plugins. In addition, you can handle further customizations in the `/after/plugin/` directory (see `:help load-plugins`). See the following examples for more information. Leveraging this technique should make upgrading to a newer version of this repo easier. 
+An alternative approach is to add your own plugins under `lua/plugins/` (each file returns a Lazy spec or table of specs). You can also use the `/after/plugin/` directory for other customizations (see `:help load-plugins`). 
 
 #### Example `plugins.lua`
 
 The following is an example of a `plugins.lua` module (located at `$HOME/.config/nvim/lua/custom/plugins.lua`) where you can register your own plugins. 
 
 ```lua
-return function(use)
-  use({
-    "folke/which-key.nvim",
-      config = function()
-        require("which-key").setup({})
-      end
-  })
-end
+-- For Lazy.nvim: add a file under lua/plugins/ (e.g. lua/plugins/which-key.lua)
+return {
+  "folke/which-key.nvim",
+  config = function()
+    require("which-key").setup({})
+  end,
+}
 ```
+
+Alternatively, add plugin specs under `lua/plugins/` (e.g. `lua/plugins/which-key.lua`) to register your own plugins with Lazy.
 
 #### Example `defaults.lua`
 

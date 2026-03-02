@@ -1,129 +1,94 @@
 -- INFO: (flam) this is minimal, suited for servers
--- Install packer
-local install_path = vim.fn.stdpath "data" .. "/site/pack/packer/start/packer.nvim"
-local is_bootstrap = false
-if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-	is_bootstrap = true
-	vim.fn.system { "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path }
-	vim.cmd [[packadd packer.nvim]]
+-- Install lazy.nvim
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+	vim.fn.system({
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"https://github.com/folke/lazy.nvim.git",
+		"--branch=stable",
+		lazypath,
+	})
 end
+vim.opt.rtp:prepend(lazypath)
 
 local Love = {}
 
-require("packer").startup(function(use)
-	-- Package manager
-	use "wbthomason/packer.nvim"
+-- Lazy requires these to be set before it loads
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
 
-	use {
+-- Minimal plugin set for server use (Option B: inline spec list)
+require("lazy").setup({
+	{
 		"nvim-treesitter/nvim-treesitter",
-		run = function()
+		build = function()
 			pcall(require("nvim-treesitter.install").update { with_sync = true })
 		end,
-	}
-
-	use {
+	},
+	{
 		"nvim-treesitter/nvim-treesitter-textobjects",
-		after = "nvim-treesitter",
-	}
-
-	use "nvim-lualine/lualine.nvim"        -- Fancier statusline
-	use "lukas-reineke/indent-blankline.nvim" -- Add indentation guides even on blank lines
-	use "tpope/vim-sleuth"                 -- Detect tabstop and shiftwidth automatically
-	use "gpanders/editorconfig.nvim"
-	use "f-person/git-blame.nvim"
-	use "backdround/neowords.nvim" -- allow camelCase and snake_case movement
-	use "jdhao/whitespace.nvim"
-	use "luisiacc/gruvbox-baby"
-	use "norcalli/nvim-colorizer.lua"
-
-	use {
+		dependencies = { "nvim-treesitter/nvim-treesitter" },
+	},
+	"nvim-lualine/lualine.nvim",
+	"lukas-reineke/indent-blankline.nvim",
+	"tpope/vim-sleuth",
+	"gpanders/editorconfig.nvim",
+	"f-person/git-blame.nvim",
+	"backdround/neowords.nvim",
+	"jdhao/whitespace.nvim",
+	"luisiacc/gruvbox-baby",
+	"norcalli/nvim-colorizer.lua",
+	{
 		"m-demare/hlargs.nvim",
-		requires = { "nvim-treesitter/nvim-treesitter" }
-	}
-	require("hlargs").setup()
-
-	use({ "stevearc/oil.nvim" })
-	require("oil").setup({
-		delete_to_trash = true,
-		view_options = {
-			show_hidden = true,
-			natural_order = "fast",
-			case_insensitive = false,
-		},
-	})
-
-	-- Fuzzy Finder (files, lsp, etc)
-	use { "nvim-telescope/telescope.nvim", branch = "0.1.x", requires = { "nvim-lua/plenary.nvim" } }
-
-	-- Fuzzy Finder Algorithm which requires local dependencies to be built. Only load if `make` is available
-	use { "nvim-telescope/telescope-fzf-native.nvim", run = "make", cond = vim.fn.executable "make" == 1 }
-
-
-	-- Add custom plugins to packer from ~/.config/nvim/lua/custom/plugins.lua
-	local has_plugins, plugins = pcall(require, "custom.plugins")
-	if has_plugins then
-		plugins(use)
-	end
-
-	if is_bootstrap then
-		require("packer").sync()
-	end
-end)
-
--- When we are bootstrapping a configuration, it doesn't
--- make sense to execute the rest of the init.lua.
---
--- You'll need to restart nvim, and then it will work.
-if is_bootstrap then
-	print "=================================="
-	print "	 Plugins are being installed"
-	print "	 Wait until Packer completes,"
-	print "		then restart nvim"
-	print "=================================="
-	return
-end
-
--- Automatically source and re-compile packer whenever you save this init.lua
-local packer_group = vim.api.nvim_create_augroup("Packer", { clear = true })
-vim.api.nvim_create_autocmd("BufWritePost", {
-	command = "source <afile> | silent! LspStop | silent! | PackerCompile",
-	group = packer_group,
-	pattern = vim.fn.expand "$MYVIMRC",
+		dependencies = { "nvim-treesitter/nvim-treesitter" },
+		config = function()
+			require("hlargs").setup()
+		end,
+	},
+	{
+		"stevearc/oil.nvim",
+		config = function()
+			require("oil").setup({
+				delete_to_trash = true,
+				view_options = {
+					show_hidden = true,
+					natural_order = "fast",
+					case_insensitive = false,
+				},
+			})
+		end,
+	},
+	{
+		"nvim-telescope/telescope.nvim",
+		branch = "0.1.x",
+		dependencies = { "nvim-lua/plenary.nvim" },
+	},
+	{
+		"nvim-telescope/telescope-fzf-native.nvim",
+		build = "make",
+		cond = vim.fn.executable("make") == 1,
+	},
 })
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
 
--- Set highlight on search
 vim.o.hlsearch = true
-
--- Make line numbers default
 vim.wo.number = true
-
--- Enable mouse mode
 vim.o.mouse = "a"
-
--- Enable break indent
 vim.o.breakindent = true
-
--- Save undo history
 vim.o.undofile = true
-
--- Case insensitive searching UNLESS /C or capital in search
 vim.o.ignorecase = true
 vim.o.smartcase = true
-
--- Decrease update time
 vim.o.updatetime = 200
 vim.wo.signcolumn = "yes"
 
--- Set colorscheme
 vim.o.termguicolors = true
 vim.cmd [[colorscheme gruvbox-baby]]
--- vim.cmd [[colorscheme alabaster]]
 require("colorizer").setup()
 
--- Set completeopt to have a better completion experience
 vim.o.completeopt = "menuone,noselect"
 
 vim.o.relativenumber = true
@@ -137,17 +102,9 @@ vim.opt.listchars:append "space:⋅"
 vim.opt.listchars:append "tab:⍿·"
 
 -- [[ Basic Keymaps ]]
--- Set <space> as the leader key
--- See `:help mapleader`
---	NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
+-- Leader is set above, before Lazy loads
 
--- Keymaps for better default experience
--- See `:help vim.keymap.set()`
 vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
-
--- Remap for dealing with word wrap
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
@@ -162,16 +119,16 @@ map("n", "<space>o", "<C-w>o", opts)
 map("n", "<space>b", "<cmd>BufferPrevious<CR>", opts)
 map("n", "<space>n", "<cmd>BufferNext<CR>", opts)
 map("n", "<space>x", "<cmd>BufferClose<CR>", opts)
-map("n", "<C-p>", function() require("telescope.builtin").find_files() end, { desc = "Search files" })
-map("n", "<space>gg", "<cmd>lua require(\'telescope.builtin\').grep_string({search = vim.fn.expand('<cword>')})<cr>", {})
-map("n", "<space>gr", "<cmd>lua require(\'telescope.builtin\').resume()<cr>", {})
+map("n", "<C-p>", function()
+	require("telescope.builtin").find_files()
+end, { desc = "Search files" })
+map("n", "<space>gg", "<cmd>lua require('telescope.builtin').grep_string({search = vim.fn.expand('<cword>')})<cr>", {})
+map("n", "<space>gr", "<cmd>lua require('telescope.builtin').resume()<cr>", {})
 map("n", "<C-a>", "ggVG", opts)
 map("v", "<leader>y", "\"*y", opts)
 
-
 local neowords = require("neowords")
 local p = neowords.pattern_presets
-
 local hops = neowords.get_word_hops(
 	p.snake_case,
 	p.camel_case,
@@ -181,14 +138,12 @@ local hops = neowords.get_word_hops(
 	"\\v\\.+",
 	"\\v,+"
 )
-
 vim.keymap.set({ "n", "x", "o" }, "w", hops.forward_start)
 vim.keymap.set({ "n", "x", "o" }, "e", hops.forward_end)
 vim.keymap.set({ "n", "x", "o" }, "b", hops.backward_start)
 vim.keymap.set({ "n", "x", "o" }, "ge", hops.backward_end)
 
 -- Set lualine as statusline
--- See `:help lualine.txt`
 require("lualine").setup {
 	options = {
 		icons_enabled = false,
@@ -199,7 +154,6 @@ require("lualine").setup {
 }
 
 local highlight = { "CursorColumn", "Whitespace" }
-
 require("ibl").setup({
 	indent = {
 		highlight = highlight,
@@ -215,8 +169,6 @@ require("ibl").setup({
 	},
 })
 
--- [[ Configure Telescope ]]
--- See `:help telescope` and `:help telescope.setup()`
 require("telescope").setup {
 	defaults = {
 		mappings = {
@@ -226,18 +178,9 @@ require("telescope").setup {
 			},
 		},
 	},
-	extensions = {
-		media_files = {
-			filetypes = { "png", "webp", "jpg", "jpeg" },
-			find_cmd = "rg",
-		},
-	},
 }
-
--- Enable telescope fzf native, if installed
 pcall(require("telescope").load_extension, "fzf")
 
--- See `:help telescope.builtin`
 vim.keymap.set("n", "<leader>fo", require("telescope.builtin").oldfiles, { desc = "[?] Find recently opened files" })
 vim.keymap.set("n", "<leader>fb", require("telescope.builtin").buffers, { desc = "[ ] Find existing buffers" })
 vim.keymap.set("n", "<leader>/", function()
@@ -246,7 +189,5 @@ vim.keymap.set("n", "<leader>/", function()
 		previewer = false,
 	})
 end, { desc = "[/] Fuzzily search in current buffer]" })
-
 vim.keymap.set("n", "<leader>fw", require("telescope.builtin").live_grep, { desc = "[S]earch by [G]rep" })
 vim.keymap.set("n", "<leader>fd", require("telescope.builtin").diagnostics, { desc = "[S]earch [D]iagnostics" })
-vim.keymap.set("n", "<leader>ft", "<cmd>TodoTelescope<CR>", { desc = "[S]earch [D]iagnostics" })
