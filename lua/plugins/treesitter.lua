@@ -37,8 +37,6 @@ return {
 							["if"] = "@function.inner",
 							["ac"] = "@class.outer",
 							["ic"] = "@class.inner",
-							["ab"] = "@block.outer",
-							["ib"] = "@block.inner",
 							["aC"] = "@call.outer",
 							["iC"] = "@call.inner",
 							["ap"] = "@parameter.outer",
@@ -90,8 +88,6 @@ return {
 				set_select("if", "@function.inner")
 				set_select("ac", "@class.outer")
 				set_select("ic", "@class.inner")
-				set_select("ab", "@block.outer")
-				set_select("ib", "@block.inner")
 				set_select("aC", "@call.outer")
 				set_select("iC", "@call.inner")
 				set_select("ap", "@parameter.outer")
